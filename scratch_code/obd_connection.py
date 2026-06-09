@@ -35,6 +35,8 @@ PIDS = [
     obd.commands.LONG_FUEL_TRIM_1,
     obd.commands.THROTTLE_POS,
     obd.commands.TIMING_ADVANCE,
+    obd.commands.GET_DTC
+    obd.commands.GE
 ]
 
 
