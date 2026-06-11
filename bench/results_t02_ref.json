@@ -1,0 +1,674 @@
+{
+ "summary": {
+  "n": 40,
+  "axes": {
+   "faithfulness": {
+    "student": 6.5,
+    "teacher": 9.03,
+    "ratio_pct": 72.0
+   },
+   "helpfulness": {
+    "student": 6.7,
+    "teacher": 8.97,
+    "ratio_pct": 74.7
+   },
+   "cost_accuracy": {
+    "student": 6.72,
+    "teacher": 8.85,
+    "ratio_pct": 76.0
+   },
+   "anti_ripoff": {
+    "student": 7.08,
+    "teacher": 9.0,
+    "ratio_pct": 78.6
+   }
+  },
+  "overall": {
+   "student": 6.75,
+   "teacher": 8.96,
+   "ratio_pct": 75.3
+  }
+ },
+ "results": [
+  {
+   "id": 0,
+   "student": {
+    "faithfulness": 8,
+    "helpfulness": 7,
+    "cost_accuracy": 6,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 8
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is wrong with your Mazda 3 right now. Everything is running perfectly. Coolant is sitting at a comfortable 89\u00b0C, the engine is running clean fuel (-0.2% STFT, -0.5% LTFT), the battery voltage is perfect at 14.2V, and the engine is handling city driving fine. The predictor is basically saying \"don't worry,\" but it's overzealous.\n\n2. ROOT CAUSE: Zero. The sensor data shows normal operation. The predictor is just pattern matching: low load, light throttle, steady temp, no stress. It's not seeing any of the actual failure signatures (no overheating spikes, no rough running, no fuel smell).\n\n3. WHAT TO DO (cheapest fix first): Do nothing. Just keep an eye on the temperature gauge if you ever notice it climbing past 95\u00b0C while sitting in traffic\u2014that's the *only* thing that matters.\n    * If you ever start getting hot, pull over immediately.\n    * Next time you're in the shop, just ask for a free 10-minute check: coolant level and temp while parked. If it's low, top it up to the \"full\" mark and re-check later. $15 bottle.\n    * Don't pay for diagnostics based on a prediction that doesn't match the data.\n\n4. WATCH OUT FOR (the upsells this data *could* lead to if you panic):\n    * **The $600+ \"radiator and fan assembly\"** when it's just a $15 relay or a $10 fan motor. Your data shows the car was cool, meaning the fan wasn't even tested under load.\n    * **\"We need to check for head gasket\"** or \"engine replacement\" based on a hunch. You need a compression test ($100-$150) *after* confirming the car has actually overheated.\n    * **\"Low coolant\" scare** leading to buying a massive jug of green stuff. Only top up to the middle line.\n    * **Any scan tool** that charges you $150+ for a data dump when the data is already perfect."
+  },
+  {
+   "id": 1,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 5,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 8,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running too rich\u2014too much fuel for the air it's getting. The computer is fighting it hard, with fuel trims sitting at -18% and -11% (meaning it's adding almost 18% extra fuel than needed just to keep things from exploding). The catalytic converter is also running hot (513\u00b0C average, peaking at 536\u00b0C), which is the engine cooking itself. The P0172 code confirms the rich condition.\n\n2. ROOT CAUSE: Most likely a small leak somewhere feeding extra fuel into the engine. The most common spots on a 243k-mile Corolla are: worn/leaky fuel-air mix sensor (71% predictor), a bad fuel pressure regulator (less likely but possible), or a stuck EVAP purge valve letting raw gas into the engine (9% predictor). The O2 sensor isn't the main problem yet; it's reacting to the rich mixture.\n\n3. WHAT TO DO (cheapest first):\n    a. Check the gas cap. Loose caps let gas sneak in. $0, 30 seconds. If it's missing or loose, tighten it and drive.\n    b. Visual check for obvious leaks: look for cracked hoses or loose exhaust manifold gaskets near the injectors. $0.\n    c. Injector leak test: $60\u2013150 for a shop to spray smoke; $10\u2013$20 for a cheap smoke machine. This finds the leak before you replace parts.\n    d. If leak test points to one injector: $50\u2013150 for a new NGK or Denso plug + $10 for a new gasket. 1 hour DIY if you're comfortable with spark plugs.\n    e. EVAP check (cheap): locate the purge valve (usually near the intake manifold, has a small hose). $20 for a new valve and hose. 20 minutes DIY.\n    f. After fixing the leak, drive it. If STFT is still negative (below -10%), you're good. If it jumps to +5% or higher, the O2 sensor is now reacting to the *new* rich condition, so replace it. $50\u201380 for a new sensor.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. \"Replace all four injectors as a set\" ($400+). Only replace the one test finds.\n    b. \"Fuel system cleaning\" ($150+). This is a band-aid. It doesn't fix a physical leak.\n    c. \"EVAP system + canister + regulator\" bundle ($500+). The leak test should find the $20 valve first.\n    d. Replacing the O2 sensor immediately. The O2 sensor is just reporting what the engine *is* running (rich), not *why* it's running rich. Fix the leak first."
+  },
+  {
+   "id": 2,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING\nYour car is running pretty fine right now. Engine temp is perfect (88\u00b0C), gas mileage isn't screaming, and the computer isn't fighting itself with fuel (STFT near zero, LTFT barely moving). The sluggish feeling you have is likely a small efficiency loss, not a big problem yet. The data doesn't strongly point to any major restriction.\n\n2. ROOT CAUSE\nThe predictor is mostly guessing: air filter restriction (57%) and a slightly dirty MAF sensor (26%). The actual data is too smooth to confirm either one is the main culprit. The real suspects for a 63k-mile Malibu feeling sluggish are:\n    a) A slightly clogged air filter, making the engine slightly less responsive at higher RPMs (but not enough to show up in this data).\n    b) A slightly dirty Mass Air Flow (MAF) sensor, underreporting air, making the engine feel lean or slow.\n    c) Normal wear and tear.\n\n3. WHAT TO DO (cheapest fix first)\n    a) Check the air filter. $15 for a new one (check your owner's manual\u2014it's usually a simple box). Time: 5 minutes. Unplug the battery, pop the hood, find the box, slide the new one in. Make sure it seats right.\n    b) Clean the MAF sensor. $10 MAF cleaner (don't use carb cleaner, it leaves residue). Time: 15 minutes. Unplug the sensor (usually a plastic connector), spray gently inside the housing, let it dry, plug it back in. Re-test drive. If sluggishness is gone, you're done.\n    c) If still sluggish, check the exhaust. With the engine idling, look at the exhaust pipe for a visible kink or blockage. If there is, that's a restriction. $50-100 for a quick backpressure test at any parts store.\n    d) Only if the above fail: look into the turbo itself. At 63k miles, the turbo is likely fine, but if you notice rough idle *only* under hard acceleration, that's a different story (check for codes like P0201/0202).\n\n4. WATCH OUT FOR (mechanic upsell traps)\n    - \"Throttle body cleaning\" or \"intake cleaning\" packages: $150-$300. Your data shows no rich/lean conditions, so this is almost never needed.\n    - \"MAF sensor replacement\" immediately: $80-$250 for a sensor that might just need a quick spray. Don't buy new unless cleaning fails.\n    - \"Catalyst restriction\" test: $100+ just to check. Don't pay for it unless you see actual exhaust flow issues.\n    - \"Turbo efficiency service\": $200+. Your data doesn't support it yet.\n    stay focused on the $15 air filter and $10 MAF clean first."
+  },
+  {
+   "id": 3,
+   "student": {
+    "faithfulness": 6,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running slightly rich (stft is basically zero, ltft is barely moving), but the computer is fighting you by constantly adjusting the fuel delivery based on the MAP sensor reading. The car is basically guessing what the engine needs, and that's what P0106 (Mass Air Flow/Manifold Absolute Pressure Sensor Range/Performance) is flagging. Coolant, voltage, and timing all look fine.\n\n2. ROOT CAUSE: Most likely the MAP sensor itself is giving bad or erratic signals, or its wiring/connection is loose or dirty (74% predictor). Less likely: a small vacuum leak (16%) causing the MAF to read weirdly, or a slow TPS drift (8%).\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the MAP sensor connection and wiring:** Pop the hood, find the MAP sensor (usually a small electrical connector near the intake manifold), unplug it, look for bent pins, corrosion, or a loose plug. Clean with electrical contact cleaner ($2). Reconnect firmly. **10 minutes, $2.** This fixes the sensor fault 80% of the time.\n    * **Check the MAP vacuum line:** Look for cracks or kinks near the sensor. If it's a vacuum hose, check it's seated properly. **5 minutes, $0.**\n    * **Clear codes:** Use a free OBD-II scanner app or scan tool. If P0106 stays, the sensor is bad.\n    * **Test the sensor:** If step 1 & 2 fail, borrow or buy a new MAP sensor for a 2017 Malibu 1.5L turbo. OEM is $40-$120, aftermarket is $20-$30. **15 minutes DIY.**\n    * **If the leak test points elsewhere:** Check PCV/intake gasket if you suspect vacuum. $150-350 shop if you need that.\n    * **Wait:** Since STFT is perfect, this is not an emergency. It's a drivability/efficiency issue, not an engine damage issue.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"We need to replace the entire intake manifold\"** ($1500+). Way too expensive. The code points at the MAP sensor, not the manifold itself.\n    * **\"Throttle body performance\"** ($200-$500). The data doesn't support it; the issue is air pressure sensing, not air metering.\n    * **\"Fuel system service\"** ($300+). Zero evidence of rich running.\n    * **\"Drivability diagnostic package\"** ($300+). You already have the code; the fix is targeted.\n\n5. HOW URGENT? Low. The car drives fine. The computer is just slightly confused. Fix the sensor/wiring first."
+  },
+  {
+   "id": 4,
+   "student": {
+    "faithfulness": 9,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is wrong with your truck right now. Everything is running fine: engine temp is dead center at 88\u00b0C, fuel mixture is perfect (STFT is basically zero), voltage is steady at 14.2V, and there are zero warning lights on. The computer is just slightly tweaking things\u2014MAF and timing are moving normally.\n\n2. ROOT CAUSE: The predictor is mostly guessing. The slight dip in fuel trim (-0.19% to 1.90%) is normal for a highway cruise where the engine is managing load smoothly. The 52% chance of an air filter restriction is low because the MAP reading (51.4 kPa) is right where it should be for 54 mph.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the air filter.** Pop the hood, look at the box. If it's dusty/dirty, replace it. Cost: $15-20 for a standard OEM or quality filter. Time: 5 minutes. No special tools needed.\n    * **Clean the MAF sensor.** If you want to be thorough, spray MAF sensor with dedicated electric cleaner (not carb cleaner) and let it dry. Cost: $10. Time: 15 minutes. Check your 5.0L's specific MAF location (usually under the hood, near the airbox).\n    * **Drive it.** Yes, it is safe. Don't spend money yet.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"We need to replace the air filter AND do an induction cleaning.\"** $50+ for labor on a box of filters and spray. The filter itself is the only part that matters.\n    * **\"MAF sensor is dirty, needs replacement.\"** $80-$250 for a sensor that often just needs cleaning. Don't buy a new one unless cleaning fails.\n    * **\"Your exhaust is restricted, needs a cat modification.\"** $300+ for parts and labor. The MAP reading is normal, so there's no evidence of a restriction.\n    * **\"Tune-up package\"** ($300+) when the car is running perfectly."
+  },
+  {
+   "id": 5,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 7,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0136 code, which means the car's computer thinks the oxygen sensor in the exhaust is reading weirdly. Right now, the readings are mostly fine\u2014engine temp is perfect (88\u00b0C), fuel trims are basically zero (0.35% and 2.85%), and the O2 sensor itself is sitting right in the middle of its normal operating range (0.62V). The problem is the *signal* it's sending, not the sensor itself failing yet.\n\n2. ROOT CAUSE: The upstream O2 sensor is drifting out of calibration, which the computer is noticing. The predictor is 92% sure it's the sensor itself, not the expensive catalyst. The other things you see (coolant, fuel, voltage) are all healthy, so we ignore the catalyst for now.\n\n3. WHAT TO DO (cheapest fix first):\n    a. Check the light location. Is it solid (P0136) or blinking (P0136)? Solid means \"something is wrong now,\" not \"check it later.\"\n    b. DIY O2 sensor swap: Buy a good quality aftermarket sensor (NGK, Bosch, Denso) $50-$150. Time: 30 minutes. Tools: socket set, anti-seize. You need an O2 sensor socket or an extension.\n    c. If the new sensor doesn't fix it in a few drives, *then* look at the cat. But don't panic.\n    d. Free check: look for a visible exhaust leak near the sensor. If you see soot or smoke, that's your $30 leak fix before buying parts.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. \"You need all four O2 sensors replaced.\" NO. P0136 points to the upstream one. The downstream one is fine.\n    b. \"You need the OEM catalytic converter.\" WRONG. Most states let you use CARB-compliant aftermarket cats for this code. Get a quote based on the *actual* exhaust condition, not the code.\n    c. \"We need to check the exhaust for leaks AND replace the plugs and coils while we're in there.\" NO. Only replace what's worn. Start with the sensor.\n    d. Don't pay $1000+ for a new cat unless you have proof the old one failed."
+  },
+  {
+   "id": 6,
+   "student": {
+    "faithfulness": 6,
+    "helpfulness": 6,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running pretty fine right now. Engine temperature is perfect (88\u00b0C), fuel trims are basically zero (STFT 1.85%, LTFT -0.50%), voltage is steady at 14.2V, and the catalytic converter is cool (504\u00b0C). The only weird thing is that the EVAP purge valve is stuck wide open, sitting at 77% duty cycle the whole time.\n\n2. ROOT CAUSE: The predictor is mostly wrong. The high EVAP purge percentage isn't a problem yet; it just means the engine is constantly sucking unburned gas from the charcoal canister into the engine. This is normal for a lot of cars, especially when the EVAP system is aging. The 59% chance for the valve being truly stuck is low because the flow isn't actually causing a rich or lean condition. The vacuum leak (24%) and injector leak (12%) chances are also low because the engine isn't struggling at all.\n\n3. WHAT TO DO (for your $400 'look into it'): Don't pay for it yet. Tell your mechanic exactly what the data shows and demand a specific test, not an open-ended investigation.\n    * **Step 1: Check the purge valve itself.** Unplug the big vacuum hose going to the charcoal canister. Is it fully seated? Is the little plastic clip tight? $0. 2 minutes. If it's loose, tighten it.\n    * **Step 2: If the valve is fine, test for a leak.** A $5 smoke machine test is the only way to find a vacuum leak without guessing. If a leak is found, fix it. A $10 hose or $15 intake gasket.\n    * **Step 3: Only if the above fail.** Then maybe a $60 smoke test.\n    * **The $400 trap:** A mechanic seeing high EVAP duty cycle and immediately quoting a new canister, new hoses, and a full system flush. That's junk.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **The EVAP system bundle ($400+):** You don't need the canister, the hoses, or the charcoal filter unless they are visibly cracked or disconnected.\n    * **\"Fuel system service\" or \"injector leak-down\" ($300+):** Your injectors aren't running rich or lean; they're perfect. Don't replace them.\n    * **\"We need to see the leak\" without a plan:** A smoke test is the actual diagnostic, not a labor charge.\n    * **The 218k mile CR-V:** Don't let mileage scare you into big parts. The engine itself is fine; the EVAP system is just showing age."
+  },
+  {
+   "id": 7,
+   "student": {
+    "faithfulness": 3,
+    "helpfulness": 4,
+    "cost_accuracy": 6,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running a little rich (too much fuel), but barely noticeable. Your bank of four oxygen sensors is basically reading the same\u2014stuck around 0.62 volts\u2014and the computer is fighting it by running negative fuel trims (-0.18% average, up to +3.51%). The code P0136 specifically means the upstream O2 sensor is reading weirdly.\n\n2. ROOT CAUSE: The upstream O2 sensor is drifting out of calibration. The predictor is 81% sure. The catalyst isn't the main issue yet; it's just getting warm from running rich, not necessarily broken. Spark plugs are starting to wear, but not enough to cause this much fuel confusion.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the O2 sensor itself.** Unplug the sensor on the exhaust, unscrew it, clean the tip with rubbing alcohol, screw it back in tightly. $50-150 for a new one (NGK, Bosch, or Denso are fine). 30 min DIY. If it doesn't fix it, move on.\n    * **Check for exhaust leaks.** Grab safety glasses and listen/look around the exhaust manifold and pipes for cracks. $0. If you find one, fix it.\n    * **Replace spark plugs.** 84k miles is the sweet spot for wear. $20-30 for a set of NGK Iridium plugs, 1 hour DIY. Don't buy $40+ plugs.\n    * **Wait and retest.** Drive normally for a few days. If STFT stays near zero, you're fine. If it jumps above +5% consistently, the O2 sensor is the weak link.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"O2 sensor set\" or \"all four O2s\" replacement.** Wrong. P0136 points to upstream only. Fix the one that's broken.\n    * **Instant OEM catalytic converter quote.** Not required yet. Fix the sensor first. The cat only matters if it's actually failing (check for visible soot/damage, $0 to spot).\n    * **\"We need to replace all coils and wires\"** just because we're in there. Only replace what's visibly bad or if the plugs are worn.\n    * **Ignoring the free check.** The sensor drift is the cheapest fix."
+  },
+  {
+   "id": 8,
+   "student": {
+    "faithfulness": 8,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING\nYour car has a P0420 code, which means the car's computer thinks the catalytic converter isn't cleaning up your exhaust gases right. The good news is your car is driving fine right now: fuel is mixing okay (stft is basically zero), the engine is cool, and the car handles city driving fine. The problem is the *potential* for the cat to fail soon.\n\n2. ROOT CAUSE\nMost likely the catalyst is starting to wear out (70% predictor). But before spending $1000+, we check the easy stuff first: a small exhaust leak or a lazy/failing O2 sensor. Your O2 sensor data is actually pretty normal\u2014it's swinging between 0.04V and 0.87V, which is normal for a working sensor, not stuck.\n\n3. WHAT TO DO (cheapest fix first, DIY friendly)\nA. Check for an exhaust leak ($0). Look for soot or smoke around the exhaust manifold or pipe near the cat. If you see it, that's your $30-50 exhaust gasket/clamp fix.\nB. Check the upstream O2 sensor ($50-150 total). It's the most common *actual* fix. Unplug the old one, screw in a new quality aftermarket sensor ($50-100), 30 min DIY. If the code stays, the cat is the issue.\nC. If the O2 sensor test is clean, look at the cat itself. Honda CR-V 2.4L doesn't have a separately replaceable OEM cat. You need to check your state's emissions law. Many states let you install a CARB-compliant aftermarket cat ($300-900 total). DIY is very hard; $500-1000 job.\nD. If you want to try to fix it all yourself: $50 O2 sensor + $30 exhaust leak detector = $80 total. If that fails, you're looking at a $300+ part.\n\n4. WATCH OUT FOR (mechanic upsell traps)\n- Instant OEM catalytic converter quote ($1000+). Many states allow aftermarket replacements. Check your state law *before* agreeing to OEM.\n- Replacing all three O2 sensors at once ($150+). Only the bad one needs replacing.\n- \"Fuel system cleaning\" ($150+). Your fuel trims are perfect, this is a waste of money.\n- Ignoring the leak check ($0). A $30 test can save you $900+.\n\nBottom line: You can likely fix this yourself if you're comfortable with electrical connectors and a wrench. If you hate DIY, get a shop quote based on the leak test first."
+  },
+  {
+   "id": 9,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0420 code, which means the computer thinks your catalytic converter isn't getting enough exhaust gas to clean it properly. Right now, the live data looks pretty normal: fuel trims are basically zero (perfect), engine temp is fine, voltage is perfect, and the exhaust temperature is in the normal range (721\u00b0C). This is a \"pending\" light, not an \"emergency\" light.\n\n2. ROOT CAUSE: The predictor is 82% sure it's a catalyst restriction\u2014meaning the exhaust flow is physically choked, usually by a dirty or undersized muffler/pipe. The other possibilities (air filter, weak fuel pump) don't fit the data as well.\n\n3. WHAT TO DO (cheapest fix first):\n    a. Check the air filter. It's 94k miles, probably dirty. Cost: $15 for a new Camry filter. Time: 5 minutes. DIY. If it's clogged, it starves the cat and throws the code.\n    b. Check the exhaust pipe *before* the muffler. Look for heavy soot buildup or a kink. Cost: $0. Time: 2 minutes.\n    c. Backpressure test. This is the only way to confirm the 82% prediction. Cost: $50-100 at a parts store. If it's high (over 300-350 kPa at cruising RPM), you need a bigger cat.\n    d. If backpressure is fine, replace the cat. Toyota SM/BM engines often have integrated/smaller cats, so check your specific VIN. Cost: $400-$700 for a quality aftermarket (Aisin, Denso) or OEM, plus labor. Avoid $1000+ dealer pricing.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. Immediately quoting a new, expensive OEM or aftermarket cat ($1000+). Don't jump there. Do the $50 backpressure test first.\n    b. \"We need to clean the exhaust manifold and intake\" or \"decarbonize the system\" ($300+). This is junk; the code is flow-related, not chemical.\n    c. Fuel pressure test ($50) before looking at the exhaust. The data doesn't suggest a weak pump; it suggests a flow issue.\n    e. Replacing the air filter *plus* the cat as a package. Only replace what the test proves is broken."
+  },
+  {
+   "id": 10,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 6,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 8,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running fine right now. Everything is basically normal: engine temp is cool (88\u00b0C), gas mileage looks okay, fuel mixture is slightly rich (STFT hovering around 3%), and the car isn't struggling to keep up with you in city traffic. The only thing slightly off is that your long-term fuel trim (LTFT) is sitting at 8.4% and creeping up to 9.9%, which is normal for an engine that's just a little tired.\n\n2. ROOT CAUSE: Most likely just worn spark plugs (67% chance). At 89k miles on a 1.5L turbo, they're due. The slight fuel lean isn't serious yet, but it's the first thing to fix cheaply. Misfire (20%) and O2 sensor drift (10%) are not supported by this data, but we check them next.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the plugs:** Pull the spark plugs. Look at them. If they're worn (gaps are wide, or the tip is feathered/white), replace them. NGK or Denso Iridium plugs: $20-30 for a set of 4. Time: 1 hour DIY. Use the correct NGK/Denso plug for your engine (usually OEM or quality aftermarket).\n    * **Check ignition:** While you're in there, quickly inspect the spark plug holes for cracks or damage. If you see damage, replace those plugs too.\n    * **Drive it:** No urgency. Keep an eye on the LTFT. If it jumps above 12% consistently, or you start feeling a shake under load, *then* investigate ignition.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **The \"tune-up package\"**: $300+ for plugs, coils, wires, and plugs. You don't need coils or plugs yet.\n    * **Immediate coil replacement**: Don't buy coils unless you see a misfire code (flashing check engine light).\n    * **O2 sensor sweep**: Don't replace all three O2s unless you see a clear pattern (one very high/low).\n    * **Timing chain/tensioner inspection**: Not indicated by this data.\n    * **The catch**: Don't let them sell you plugs *and* coils *and* sensors based on 89k miles. Fix what's actually worn first."
+  },
+  {
+   "id": 11,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0401 code, which means the computer thinks your Exhaust Gas Recirculation (EGR) valve is stuck wide open, dumping too much exhaust back into the engine. Your fuel mixture is slightly rich (STFT 11.2% average, but dipping to 7.6% at light load), and your catalyst is running hot (502\u00b0C average). Everything else looks fine\u2014engine temp, voltage, timing are normal.\n\n2. ROOT CAUSE: Almost certainly the EGR valve itself is stuck open, or its position sensor is broken. The 89% predictor points right at the valve. A vacuum leak (7%) is possible but less likely given the specific code and load changes.\n\n3. WHAT TO DO (cheapest fix first):\n    a. Check the EGR position (DIY, 10 min): Locate the valve on your 2010 CR-V (usually on the side of the engine, near the exhaust manifold). Look for visible sticking or debris blocking it. If it's physically stuck open, try gently moving it to the closed position and see if the code clears.\n    b. Clean the valve (cheapest test): Buy EGR valve cleaner ($5) and carefully spray it inside the passages. Let it soak, then try to move it by hand. If it still won't move, replace it.\n    c. Replace the EGR valve (parts): Honda OEM is $150\u2013250. Aftermarket is $80\u2013150. Labor 1\u20132 hours DIY, or $150\u2013250 shop.\n    d. Clear codes: Free at any parts store (AutoZone, O'Reilly). If P0401 comes back, the next step is checking for misfires (3% predictor) with a scan tool.\n    e. Don't rush to the cat: the light is *on*, not *flashing*. This is a slow burn, not an immediate danger.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. The $400+ \"full decarbonization service\" is a rip-off. You don't need a full system flush unless the valve itself is just dirty.\n    b. Replacing the whole intake manifold ($150\u2013350) when the leak test ($5\u201360) points elsewhere.\n    c. Immediately replacing the expensive catalytic converter ($300\u2013600) based on this one code. It's not flashing, and the car is drivable.\n    e. Don't buy a tune-up package ($300+) unless you find misfires with a live data reading.\n\n5. SUMMARY: Check the physical position of the EGR first. If it's stuck open, replace it. If it moves freely but the code stays, then investigate the vacuum/intake area. Don't panic about the cat yet."
+  },
+  {
+   "id": 12,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING\nYour car has a P0106 code, which means the computer thinks the air-to-mass-air (MAP) sensor isn't reading correctly. The weird part is that your fuel mixture (STFT and LTFT) is basically perfect, and your engine is cruising fine. The computer is just nagging about the MAP signal.\n\n2. ROOT CAUSE\nMost likely the MAP sensor itself or a loose/dirty connection (85% confidence). Since you're on the highway, the MAP signal is changing rapidly, which is exactly what the car is complaining about. A vacuum leak (9%) is less likely because the engine isn't struggling to keep up with the throttle; it's running lean/perfectly mixed.\n\n3. WHAT TO DO (cheapest fix first, with cost and time)\na. Check the MAP sensor connection and wiring ($0). On the 2008 Corolla, it's usually a small electrical connector on the intake manifold. Unplug, inspect for dirt or damage, plug back in firmly.\nb. Test the signal ($0). Use a free OBD-II live data tool (like Torque or a free app) to watch the MAP value while driving. It should jump smoothly between 88 and 98 kPa with RPM changes. If it jumps erratically or stays stuck, the sensor is bad.\nc. Replace the MAP sensor ($40\u2013120 total). Toyota often uses a specific part number; check your manual or Toyota parts site first. 15 minutes DIY.\nd. If stepb and c don't fix it, check the MAP vacuum hose for cracks or damage ($5\u2013$20).\ne. Don't panic. The car is safe. The P0106 is a sensor complaint, not an engine complaint.\n\n4. WATCH OUT FOR (mechanic upsell traps)\n- \"We need to replace the entire throttle body\" ($200\u2013500). Wrong. The P0106 is specifically the MAP sensor, not the throttle position.\n- \"Full drivability scan\" or \"live data monitoring\" package ($300+). You already have the code and the live data to diagnose.\n- \"New intake manifold\" ($150\u2013350). Way too expensive for a sensor check.\n- Don't pay for a smoke test ($60\u2013120) unless you suspect a leak *after* confirming the sensor itself is fine."
+  },
+  {
+   "id": 13,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0420 code, which means the car's computer thinks the catalytic converter is running rich or lean. Right now, the live O2 sensor is swinging normally (0.44 to 1.02), and your fuel mixture (STFT/LTFT) is basically perfect at 0.05% and 1.21% over the whole drive. This is the classic \"pending\" code.\n\n2. ROOT CAUSE: Most likely the catalytic converter is worn out (85% predictor). However, the O2 sensor itself is drifting slightly (9%) and could be the cheap fix. The good news is the car isn't currently running badly; it's just being watched.\n\n3. WHAT TO DO (cheapest fix first, with cost and time):\n    * **Check for an obvious exhaust leak:** $0. Grab safety glasses and listen/look near the exhaust. If you hear a loud bang or hiss under load, you found it. If no leak, move to the sensors.\n    * **Check the O2 sensor:** Unplug the sensor, screw it out, clean the tip with rubbing alcohol, screw it back in. $50-150 for a new sensor (NGK, Denso, or quality clone). 30 min DIY. If the code stays, the cat is the problem.\n    * **Check the O2 sensor code:** Use a free OBD2 app (like Torque or Car Scanner EL) to see if P0420 is *stuck* or if it's flashing. If it's stuck, the sensor is the weak link.\n    * **If the O2 sensor test is clean:** Install an aftermarket CARB-compliant cat. $300-$900 total. Don't pay $1000+ for OEM unless you live in a state that still requires it (check your state's emissions laws\u2014many don't).\n    * **Urgency:** Not today. It's not an emergency. It's an economy issue. Drive it. If the car starts sputtering, smells like raw eggs, or won't accelerate, *then* pull over.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **Instant OEM catalytic converter:** $1000+ sticker price. Many states allow aftermarket parts. Get a quote based on your state's specific rules.\n    * **\"O2 sensor drift\" fix:** They will immediately tell you to replace *both* O2 sensors for $200+ when only one is failing. Test the live data first.\n    * **Fuel system cleaning:** $150+ for zero evidence of rich running.\n    * **Ignoring the leak check:** A $30 visual inspection saves you hundreds."
+  },
+  {
+   "id": 14,
+   "student": {
+    "faithfulness": 8,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car's battery voltage is sitting at a dangerously high 15.91V for the entire 2.5 minutes you were driving. A healthy system hovers around 14.2V to 14.7V. The computer noticed and set code P0563 (System Voltage Too High).\n\n2. ROOT CAUSE: Almost certainly your alternator's internal regulator is stuck high, pushing voltage to 16V. This is a failure of the alternator assembly, not just the battery. The battery is already being overcharged and will die fast. The 119k mile mark is right when alternators start failing.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the battery terminals and main cable:** Are they hot to the touch? If so, the alternator is definitely the source. If cool, the battery might be the weak link, but the alternator is still the main problem. (Cost: $0, Time: 1 min)\n    * **Test the alternator:** Go to any parts store (AutoZone, O'Reilly, Advance) and get the voltage tested *while driving* (they hook up a meter). If it reads 15.9V+ while driving, the alternator is bad. (Cost: $0)\n    * **Replace the alternator:** For your F-150 5.0L, buy a quality reman or new unit. (Cost: $150\u2013400, Labor: 1\u20132 hours DIY, but watch the belt.)\n    * **Check the serpentine belt:** At 119k miles, the serpentine belt is likely glazed or worn. Replace it. (Cost: $20\u201340, Time: 30 min)\n    * **Battery:** If the test shows the battery is also failing (or if it's old), buy a new one. Don't buy a $250+ battery unless the alternator test specifically points to it. (Cost: $150\u2013250 total for the unit.)\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Just replace the battery\"**: Trap. If the alternator is bad, the new battery dies in a week because it was constantly overcharged. Fix the alternator first.\n    * **\"Full alternator + new battery + labor\" package over $500**: Only if the test confirms the alternator is the source.\n    * **Ignoring the voltage**: Driving at 16V+ risks frying the ECU, radio, and modules. Fix this today.\n    * **Ignoring the MAF/MAP/STFT data**: Your engine itself is running fine (stft near zero, temps normal), this is purely an electrical problem. Don't let them blame the engine for the voltage."
+  },
+  {
+   "id": 15,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car's computer is getting confused about how much air is actually going into the engine. It's telling the engine to make a little more or less power than it actually needs, which is why you have code P0106 (Mass Air Flow vs. Engine Load mismatch). The good news is it's mild right now\u2014fuel trims are basically zero, engine is cool, and the car drives fine.\n\n2. ROOT CAUSE: Most likely the MAP (Manifold Absolute Pressure) sensor itself or its connection is sending bad or erratic signals. The predictor leans 74% toward the sensor/wiring, not a big vacuum leak or throttle issue.\n\n3. WHAT TO DO (cheapest fix first, with cost and time):\n    a. Check the MAP sensor connector and vacuum hose. On the Camry, it's usually a small 3-prong plug on the intake manifold. Unplug, check for dirt/damage, plug back in *tightly*. $0, 2 minutes.\n    b. If clean, swap the MAP sensor with another sensor (like the MAF sensor) to see if the code moves. If P0106 moves, the MAP sensor is bad. $40\u2013120 for a new one (Amazon/AutoZone). 15 minutes DIY.\n    c. If swapping doesn't fix it, check the vacuum hose leading to the MAP sensor for cracks or kinks. $5\u201310 hose, 5 minutes DIY.\n    d. If the sensor and vacuum are fine, *then* look at the vacuum hoses themselves for cracks (spray test $5). If you suspect the intake gasket, $150\u2013350 shop job.\n    e. Avoid big diagnostic bills. Don't pay $300+ for this.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. \"We need to replace the entire throttle body\" or \"drive-by-wire throttle body\" for P0106. Wrong. P0106 is about *pressure* input, not throttle *output*.\n    b. \"Full drivability scan\" or \"live data logging\" for $300+. You already have the code and the data to diagnose the sensor.\n    c. Replacing the intake manifold ($150\u2013350) when the leak is just a $5 hose.\n    d. Don't let them push for a new MAP sensor immediately. Test the signal first."
+  },
+  {
+   "id": 16,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a code P0401, which means the computer thinks your Exhaust Gas Recirculation (EGR) valve is stuck open too much, messing up your exhaust flow. Right now, your fuel mixture is a little rich (stft averaging 7.7%), but it's not crazy yet. Everything else looks fine: engine temp, voltage, RPM, and timing are normal.\n\n2. ROOT CAUSE: Most likely the EGR valve itself is stuck open (69% predictor). Less likely is a small vacuum leak (19%), which would cause a bigger fuel smell and rougher idle, which we aren't seeing yet. The P0401 code is specific to the EGR system, not just the leak.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Drive it for now.** P0401 is not an emergency. It costs you nothing right now. Just watch for: a really bad smell from the exhaust, rough idling, or the check engine light staying on constantly.\n    * **Check for obvious vacuum leaks (free/cheap):** With the engine warm, spray unlit propane or carb cleaner around intake manifold gaskets and PCV hoses. If the engine RPM changes when you spray, you found it. Fix any hose/gasket leak with $5-10 in parts and 15 minutes.\n    * **Inspect/clean the EGR valve (DIY):** Remove it (consult your Hyundai manual, usually under the hood), clean the passages with carb cleaner, reassemble. $10 part + 1-2 hours. If it's just carbon buildup, this fixes it.\n    * **If cleaning doesn't work, replace the valve:** Hyundai part is usually around $150-$300. Labor $100-200 shop.\n    * **Only if the above fail:** look at your coils. If one is bad, swap it to see if the code moves (free test). $0-100.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Full decarbonization service\" or \"EGR system overhaul\" for $400+.** This is rarely needed; usually just cleaning the valve itself fixes it.\n    * **\"New intake manifold\" or \"new intake gaskets\" for $200+.** Way too expensive. A leak test should be $5-$60.\n    * **\"Tune-up package\" ($300+)** when the P0401 isn't causing actual drivability issues yet.\n    * **Ignoring the leak test.** A $5 spray test catches the cheap fixes first."
+  },
+  {
+   "id": 17,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING\nYour car has a P0106 code, which basically means the car's computer (ECU) doesn't agree with what the throttle position sensor (TPS) is telling it, specifically when you're driving. The data shows the engine is running fine\u2014coolant steady at 88\u00b0C, fuel delivery perfect (STFT near zero, LTFT near zero), voltage perfect. The problem is isolated to the throttle signal.\n\n2. ROOT CAUSE\nMost likely the MAP sensor is sending weird or erratic data to the car, or the signal is being interrupted. The predictor leans 76% on the MAP sensor itself, but since P0106 is a TPS code, the computer is complaining about the *result* of the MAP/TPS interaction. The most common physical failure here is a loose or dirty MAP sensor or its wiring/connector. A vacuum leak (14%) is unlikely because your fuel trims are perfect.\n\n3. WHAT TO DO (cheapest fix first)\na. CHECK THE CONNECTOR (free, 5 min DIY)\n   - Locate the MAP sensor (it's usually a small electrical connector on the intake manifold, often with a small hose or vacuum line attached).\n   - Unplug it, look for bent pins, bent plastic, or dirt.\n   - Gently clean the pins with clean electronics contact cleaner (don't use brake cleaner).\n   - Re-seat it firmly.\n\nb. RE-CHECK THE CODE (free)\n   - Drive it around the block. If P0106 stays, the sensor is bad. If it clears itself, it was a one-time glitch.\n\nc. TEST THE SENSOR (next step, if a) fails)\n   - Buy a new MAP sensor for your 2018 Civic (OEM or quality aftermarket, $40\u2013120).\n   - DIY: 15 min. Unplug old, install new, plug in.\n   - If it doesn't fix it, the $300+ scan trap is a trap.\n\nd. IF a & c FAIL (check wiring/vacuum):\n   - Check the MAP hose/connector for cracks or damage ($5\u2013$20).\n   - If the sensor is integrated into the throttle body assembly, check if your Civic uses a separate MAP sensor or if it's integrated into the throttle body (it's not, it's separate).\n\n4. WATCH OUT FOR (mechanic upsell traps)\n- \"We need to replace the entire throttle body\" ($200\u2013500). Wrong. P0106 points at the MAP signal, not the throttle position itself.\n- \"Drivability diagnostic package\" ($300+). You need a specific sensor test, not a blanket service.\n- \"New intake manifold\" ($150\u2013350). Way too expensive for a sensor/connector issue.\n- Don't buy anything until you know what failed.\n\nTLDR: Check the MAP connector first. If that fails, test the sensor. Don't pay for a full throttle body replacement yet."
+  },
+  {
+   "id": 18,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 8,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running too rich\u2014too much fuel for the air it's getting. The computer is fighting it hard: your short-term fuel trim is sitting at -24%, and long-term is -16%. The oxygen sensor is stuck high at 0.83V, which is the classic sign of an unmetered fuel source dumping into the exhaust. P0172 is the code for this.\n\n2. ROOT CAUSE: Almost certainly a leaking fuel injector or a massive vacuum/intake leak right after the MAF sensor. The O2 sensor isn't the cause; it's the victim. The lean condition is so severe (-24%) that the car is actively running rich, not just slightly rich.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the obvious: Air/Fuel Leak Test.** This is the $30 diagnostic. Have a shop or DIY check for vacuum hoses, PCV valve, and the large intake manifold gasket for cracks/gaps. If you see a big gap, that's your leak.\n    * **Injector Leak-Down Test.** This is the real fix. Buy a $60 fuel system leak detector (or rent one). Spray around the spark plug threads and intake manifold gaskets while idling. If you see heavy spray, you found it. Fix that spot.\n    * **If leak test finds an injector:** Replace the bad one. 2.0L Elantra injectors are $100-$150 new, $200-$300 installed labor. Don't replace all four unless the leak test proves it.\n    * **If no leak is found:** the O2 sensor is reacting to the rich mixture. Replace it. $50-150 sensor + 30 min DIY.\n    * **EVAP check (low probability):** Check the purge valve and hoses for cracks/damage. $20 part, 20 min DIY.\n\n4. WATCH OUT FOR: Your mechanic's $400 \"look into it\" is a bait-and-switch. They will immediately jump to:\n    * **\"Replace all four injectors\"** for $300+ (Trap). Only replace the one that tests bad.\n    * **\"Fuel system cleaning\"** for $150+ (Trap). Cleaning won't fix a physical leak.\n    * **\"EVAP system diagnostic and fix\"** for $500+ (Trap). The code P0172 points at the engine, not the vapor side.\n    * **Replacing the O2 sensor** without confirming the leak first.\n\n5. SUMMARY: Don't pay for a full system overhaul. Demand a specific test: leak-down test on injectors, then O2 check. If the leak test is negative, the O2 sensor is the only thing that needs replacing, and that's $150 total."
+  },
+  {
+   "id": 19,
+   "student": {
+    "faithfulness": 6,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0401 code, which means the computer thinks your Exhaust Gas Recirculation (EGR) valve is stuck wide open, dumping too much exhaust back into the engine. Your fuel mixture is running rich (stft averaging 11.4%, climbing to 15.1% at the end), but it's not enough to cause a misfire yet\u2014the O2 sensor is still swinging normally. Coolant, voltage, and timing look fine.\n\n2. ROOT CAUSE: Almost certainly the EGR valve itself is stuck open (83% predictor). On a 2008 Corolla at 221k miles, this is a known wear item. A vacuum leak (10%) is possible but less likely given the fuel trim trend.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check for obvious leaks (free):** Look for cracked hoses or loose intake gaskets near the EGR. If you see smoke, stop driving.\n    * **Inspect/Clean the EGR valve (DIY, cheapest):** Unplug the intake manifold, inspect the valve for carbon buildup, spray throttle body cleaner inside and around it. $10 cleaner, 1 hour DIY. If it moves freely, you're done.\n    * **Test for vacuum leak (next cheapest):** Shop smoke test $60-120. If it finds a leak, fix it ($5-20 hose, $150-350 labor).\n    * **If cleaning fails, replace the part:** Toyota/aftermarket EGR valve $150-$400 total. DIY if you can find an affordable replacement for your specific engine (search for 2008 Corolla EGR). Shop labor $150-300.\n    * **Don't rush the cat:** P0401 alone doesn't mean the cat is broken. It means the *system* is wrong. Fix the valve first.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Full decarbonization service\"** $400+. This is junk. You don't need a full system clean unless the valve itself is bad.\n    * **\"New intake manifold\"** $200-400. Way too expensive. The leak test should find the $5 hose, not the whole manifold.\n    * **\"Tune-up package\"** $300+. You need to confirm the EGR is the source, not ignition.\n    * **Ignoring the rich running:** If stft stays high (above 10%) after fixing the EGR, *then* you look at ignition. But P0401 is an exhaust flow complaint, not a spark complaint."
+  },
+  {
+   "id": 20,
+   "student": {
+    "faithfulness": 8,
+    "helpfulness": 7,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is wrong right now. Your car is running perfectly. Engine temperature is right at 88\u00b0C, fuel mixture is dead on (STFT and LTFT are basically zero), gas pedal feels normal, and the car isn't struggling to keep up with city driving.\n\n2. ROOT CAUSE: The computer is *slightly* hunting for air, but it's doing a great job. The predictor's 71% guess about a slight air restriction is basically noise. The real story is that your car is running exactly as it should at 140k miles.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the air filter.** $15 for a Honda CR-V (check the box for the right fit, usually a square or slightly rectangular box). 5 minutes DIY. Unplug the battery, pop the hood, pull the old one, slide the new one in, snap it on. That's it.\n    * **If you want to be extra thorough (and you probably don't need it yet):** Clean the MAF sensor. $10 MAF cleaner, spray inside the airbox where the air meets the sensor. 15 minutes. Don't use carb cleaner, it leaves residue.\n    * **Wait.** Drive it normally. If you ever start feeling sluggish, rough idling, or the MPG drops noticeably, *then* we look deeper.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"We need to replace the MAF sensor because it's dirty.\"** $80\u2013250 for a sensor that probably just needs a spray. Don't buy new unless cleaning fails.\n    * **\"Throttle body cleaning\" or \"intake restriction\" service.** $150\u2013300 for a spray. Your data shows no actual restriction (MAP and RPM are fine).\n    * **\"Catalyst restriction test\"** ($50\u2013100) followed by a $400+ exhaust fix. Your catalyst temp is normal (529\u00b0C), so there's zero evidence of a clog.\n    * **The big one:** Paying for diagnostics based on a 71% guess. Your car has zero codes and zero symptoms.\n\n5. HOW URGENT? Not urgent. Fix the air filter today if you haven't, but don't spend money on anything else until you feel a problem."
+  },
+  {
+   "id": 21,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 5,
+    "cost_accuracy": 4,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 8,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running a mild misfire or inefficiently, which the car's computer is noticing (P0420 code is set). The engine is struggling to keep up with demand, which you feel as a lack of punch at speed. The good news is the engine itself is fine: RPMs are normal, coolant is cool, voltage is perfect (14.2V), and fuel delivery is basically perfect (STFT near zero, LTFT under 1%).\n\n2. ROOT CAUSE: Most likely the exhaust flow is slightly restricted, meaning the turbo isn't getting the full breath it needs, especially when you ask for more power. The predictor leans toward a catalyst restriction (71%), but we need to rule out the easy stuff first, especially air flow.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the air filter.** This is the #1 cause of feeling choked on a Civic. Cost: $15 for a new filter (check your manual, usually a 50mm or 55mm filter), 5 minutes DIY. Make sure you're using the correct one for your Civic generation.\n    * **Check the exhaust.** Look at the pipe right after the turbo. Is it obviously kinked, bent, or heavily clogged with soot/debris? If so, a $20 metal brush or dental pick can clear it. 5 minutes.\n    * **Check the MAF sensor.** If it's caked with oil/dirt, it reads low and the car feels choked. Cost: $10 for a new sensor. Time: 5 minutes.\n    * **Backpressure test.** This is the real test for P0420. Cost: $50-$100 at a parts store. They measure how hard it is to push air out. If it's high (above spec for your engine), the exhaust is the bottleneck.\n    * **If backpressure is fine, then look at the cat.** Cost: $300-$500 for a quality aftermarket cat (Aisin, Denso) for a Civic, not OEM. Labor: $100-$150. Don't pay $600+.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"You need a new catalytic converter.\"** $600+ for a 66k-mile car is highway robbery. A restriction is cheaper and easier to fix.\n    * **\"Full exhaust system replacement.\"** $500+ for what might just be a $20 filter and a $20 brush.\n    * **\"Fuel system flush\" or injector cleaning.** Your fuel trims are perfect, so this is a waste of money.\n    * **\"High-flow intake manifold upgrade.\"** Not needed unless the turbo itself is failing (which the data doesn't show).\n\n5. SUMMARY: Start with the air filter and a visual check of the exhaust. If that doesn't fix the feeling of being choked, *then* move to the backpressure test. Don't buy the cat yet."
+  },
+  {
+   "id": 22,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 6,
+    "cost_accuracy": 5,
+    "anti_ripoff": 5
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your engine is seriously overheating. The temperature sensor is sitting at 110.25\u00b0C and climbing fast (5.37\u00b0C/min) over the entire 2.5 minutes you were driving, peaking at 117.05\u00b0C. That's way past safe operating temp (around 95\u00b0C). The car is basically cooking itself. The P0217 code is the car telling you this is happening *now*.\n\n2. ROOT CAUSE: The cooling system has failed. The most likely causes, in order:\n    * **Thermostat is stuck closed or completely failed:** It's supposed to open around 88\u00b0C. If it's stuck shut, coolant backs up instantly. $150\u2013250 part, 30 min DIY.\n    * **Cooling fans aren't turning on:** If the car is driving on a hot day, they might be broken. $5\u201315 relay check first.\n    * **Coolant leak:** A hose or radiator is broken. $20\u201350 for parts.\n    * **Water pump failure:** If the coolant isn't circulating fast enough. $300\u2013600 total job.\n    * *Less likely but possible:* Head gasket failure (70% predictor), which means the engine is literally exploding. This is why you must stop driving.\n\n3. WHAT TO DO (right now, don't wait):\n    * **STOP DRIVING.** Pull over safely. Turn off A/C and heat\u2014you need to dump heat immediately.\n    * **Check coolant level.** If it's low, add coolant (50/50 mix) to the cold radiator cap, just to get it moving slowly. If it keeps rising, you have a major leak.\n    * **Locate the leak.** Feel for hot spots on hoses and radiator. If you can safely see/smell steam, the leak is big.\n    * **If safe to move slowly:** Get it to a shop immediately. They can diagnose without you risking a total engine loss.\n    * **Fixing the heat (if you must move):** Check the fan relay ($5\u201315) first. If that doesn't fix it, the rest is parts.\n\n4. WATCH OUT FOR (the big scam):\n    * **\"It's just the thermostat\" quote ($150\u2013250) without a full cooling system check.** A mechanic will quote the thermostat *plus* radiator, hoses, water pump, and labor all bundled. You need a diagnosis first.\n    * **\"We need to replace the whole radiator and fan assembly\" ($600+).** Often, it's just the relay or the thermostat.\n    * **\"We need to do a compression test to check for head gasket\" immediately.** This is a trap. If the head gasket is bad, the engine is already toast; you don't want to pay for a repair that might be $3000+.\n    * **Stop-leak bottles.** They don't fix overheating; they just mask the smell while you sit there.\n\n**Bottom line:** 117\u00b0C is emergency territory. Do not drive it to a parts store; drive it to a mechanic who can diagnose it *right now*."
+  },
+  {
+   "id": 23,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 4,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING\nYour car's throttle position sensor (TPS) is sending a weird signal to the computer. It's basically stuck or moving too slowly/erratically for what the car is actually doing. The car is driving fine right now because it's mostly coasting or at very low speed, but it can't smoothly adjust power when you press the gas pedal. The code P0122 confirms the car is getting bad throttle input.\n\n2. ROOT CAUSE\nMost likely the TPS itself is failing or its electrical connection is bad (77% predictor). The map sensor fault (14%) is less likely because the MAP reading is actually moving a bit (25 to 84 kPa) as you drove, just not smoothly with the RPM changes. The real issue is the signal *to* the engine, not the air *into* the engine.\n\n3. WHAT TO DO (cheapest fix first, with cost and time)\na. CHECK THE WIRING (free, 2 min): Locate the TPS (usually on the throttle body assembly, near the air intake). Unplug the connector and look for bent pins, corrosion, or a loose plug. Wiggle the connector gently\u2014if it moves, that's the problem.\nb. CLEAN THE SENSOR (free): Use electronics contact cleaner (like Rubbing Alcohol, NOT WD-40) on the sensor body and connector. Wipe dry.\nc. TEST THE SIGNAL (free/cheap): Use a free OBD-II live data app (like Torque or Car Scanner ELM327) to watch the TPS value while you drive. If it jumps erratically or stays pegged at 0% or 100%, the sensor is bad.\nd. REPLACE THE PART (parts cost):\n    i. OEM/quality aftermarket TPS: $30\u201360.\n    ii. DIY: $0 if you can find a drop-in replacement for the 2017 Malibu (check parts sites for specific fitment, often bundled with throttle body sensors).\n    iii. Labor: 20\u201330 minutes of YouTube guidance.\ne. RE-LEARN/ADAPT (if needed): Sometimes replacing the TPS requires a free software flash or a $20\u2013$50 adapter, but usually the car learns it. Check your Malibu's specific procedure online.\nf. WATCH OUT FOR (mechanic upsell traps):\n    i. $300+ \"drivability diagnostic\" to check the TPS. You already have the code.\n    ii. Replacing the whole throttle body assembly ($200\u2013500) when only the sensor is bad.\n    iii. Replacing the MAP sensor ($40\u2013120) when the TPS is the confirmed source of the P0122 code.\n\n4. WATCH OUT FOR\nDon't pay for a full throttle body replacement unless the live data proves the whole unit is faulty. The TPS is a separate, cheaper part. Also watch for them to push the MAP sensor ($120+) or the ECU re-learning process ($200+). The fix is almost certainly the $30\u201360 sensor and a quick check of the harness."
+  },
+  {
+   "id": 24,
+   "student": {
+    "faithfulness": 8,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running rich (too much fuel for the air it's getting), which the computer is fighting against. Stft is sitting at 16.7% average, and it's still high (12.3% low, 21.9% high) even when you're cruising. The computer is trying to compensate by leaning out the mixture, but it can't because the actual air measurement is wrong. P0101 is the code for \"Mass Air Flow sensor reading is wrong.\"\n\n2. ROOT CAUSE: The most likely is a dirty or damaged Mass Air Flow (MAF) sensor, 93% sure. It measures air entering the engine; if it's coated in oil or dust, it reads low, and the computer dumps extra fuel to compensate. The other possibilities are a small vacuum leak (4%) or a clogged air filter (2%), but the MAF is the direct measurement error here.\n\n3. WHAT TO DO (DIY first, save cash):\n    a. **Clean the MAF sensor.** Buy MAF-specific cleaner (not carb cleaner, that ruins plastic) $10. Unplug the sensor (usually a plastic box with a wire harness), spray gently inside the air passage, let it dry 2 minutes, plug it back in. 15 minutes, no tools needed. Check for cracks or debris.\n    b. **Drive and re-test.** If stft drops below 10% while cruising, you're done.\n    c. **If cleaning fails, replace the sensor.** Hyundai Elantra 2.0L MAF Sensor: $80\u2013150 new (Amazon, RockAuto). 15 minutes DIY. Avoid the $250+ OEM replacement unless you have to.\n    d. **Check the air filter.** If it's visibly clogged, $15 filter, 5 minutes DIY.\n    e. **If cleaning/filter don't fix it, look for a vacuum leak.** With the engine idling, spray unlit incense or tear-off paper near intake hoses and the MAF sensor. If it changes color, you found it. Fix the leak with $5\u201320 hose.\n    f. **Shop rate check:** If you go to a shop, ask specifically for a \"MAF cleaning and test\" ($40\u201375 labor) or \"MAF sensor replacement\" ($80\u2013150 total). Don't pay for the whole throttle body service.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. **Instant MAF replacement.** Don't pay $250+ for a new sensor if cleaning works.\n    b. **\"Throttle Body Service\" or \"Intake Cleaning\"** packages ($350+) are junk. The MAF is separate from the throttle body itself.\n    c. **Replacing the entire intake manifold** ($150\u2013350) for a vacuum leak that costs $10 in parts.\n    d. **Ignoring the cheap fixes.** The $10 cleaner and $15 air filter are the first and cheapest steps."
+  },
+  {
+   "id": 25,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 6,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 8,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running too rich\u2014too much fuel for the air it's getting. The computer is fighting it hard, pulling fuel back by almost 18% (STFT at -18%, LTFT at -12%). The oxygen sensor is stuck high (0.77V, barely moving), which is the classic sign of a massive leak right before the sensor can properly read the mix. P0172 is the code for \"Bank 1 Sensor 1 is too rich.\"\n\n2. ROOT CAUSE: Most likely a small leak somewhere feeding the engine extra fuel, probably an exhaust manifold gasket or a leaking fuel rail/injector. The O2 sensor is the symptom, not the cause. The lean condition is mild enough right now that the engine isn't knocking or stalling, but it's wasting gas and stressing parts.\n\n3. WHAT TO DO (cheapest fix first, with cost and time):\n    * **Check the obvious first (free):** Look for obvious fuel leaks around the exhaust manifold gaskets, fuel rail bolts, or the PCV valve/hoses. If you see wetness or heavy soot, you found it.\n    * **Injector Leak-Down Test (diagnostic):** $60\u2013150 for a shop to test all four injectors. If one is bad, it's cheap to replace.\n    * **If leak test points to one injector:** Replace that one. Mazda 3 2.5L injectors are ~$100\u2013150 new, $20\u2013$30 labor.\n    * **If leak test is inconclusive or you suspect the EVAP side (less likely given the O2 reading):** Check the purge valve. $20\u2013$60 part, 20 min DIY.\n    * **Don't jump to $800+ EVAP parts yet.**\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Replace all four injectors as a set\"**: NO. Only the bad one. One test tells you which.\n    * **\"Fuel system cleaning\"**: This is a band-aid. It masks the leak but doesn't fix it, and you'll be back in a week with the same code.\n    * **\"Full EVAP system replacement\"**: $500+ for parts you might not need.\n    * **\"Replace O2 sensor because it's flat\"**: Only if the test proves the sensor itself is dead, not just that the *reading* is flat due to the leak.\n\n5. IS IT SAFE TO KEEP DRIVING? Yes, cautiously. The car is running slightly rich, but not dangerously so. Keep it short trips, avoid long highway runs at wide-open throttle, and watch the light. If the car starts sputtering, stalling, or you smell raw gas, pull over immediately."
+  },
+  {
+   "id": 26,
+   "student": {
+    "faithfulness": 9,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running rich (too much fuel for the air coming in), which the computer is fighting against. Your fuel trims (stft and ltft) are sitting at 16.9% and 11.7%, which is high for normal driving. The light is on because the computer is officially seeing this. Coolant, voltage, and timing are all fine, so this is a metering problem, not a major engine issue right now.\n\n2. ROOT CAUSE: The most likely culprit is your Mass Air Flow (MAF) sensor getting dirty. It measures air and tells the computer how much fuel to inject. When it's dirty, it reads less air than there actually is, so the computer overcompensates by dumping in extra fuel, causing the rich reading. The predictor is 83% sure. A small vacuum leak (10%) is possible but less likely given the load and RPM data.\n\n3. WHAT TO DO (cheapest fix first):\n    a. Check the air filter. Pull it out, look at it. If it's grey and full of dust, replace it. Cost: $15-20 for a new one. Time: 5 minutes. If it's clean, move on.\n    b. Clean the MAF sensor. Buy MAF-specific cleaner (not carb cleaner, it ruins the sensor). Cost: $10. Time: 15 minutes. Unplug the sensor, spray gently inside the housing, let it soak, dry completely. Re-check codes after driving.\n    c. If cleaning fails, test for a vacuum leak. Buy a cheap spray can and listen/look for hissing near intake hoses or the MAF sensor. Cost: $5. Time: 5 minutes. If you find a leak, fix the hose/gasket.\n    d. If neither of the above works, replace the MAF sensor. Cost: $80-$250 for a quality Honda/Aisin part, $10-15 labor.\n    e. If the light stays on after all this, *then* look at the timing advance (19.9\u00b0 is fine, but worth noting if you ever get a code about timing).\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a. \"Throttle body service\" or \"intake cleaning\" packages. $200-$400 for something that doesn't fix a dirty sensor or a real leak. The MAF is the cheap, most likely fix.\n    b. Immediately replacing the MAF sensor without trying the $10 cleaning first.\n    c. \"We need to check the fuel trims *after* the repair.\" They will see the rich condition persist, and you'll be back for another service.\n    d. Replacing the entire intake manifold or gasket unless the $5 leak test proves it."
+  },
+  {
+   "id": 27,
+   "student": {
+    "faithfulness": 6,
+    "helpfulness": 7,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running a bit rich (too much fuel for the air coming in), and the computer is fighting it. Your short-term fuel trim (how much it needs to add to the mix right now) is bouncing between -3% and +8%, and long-term is basically zero. The main red flag is code P0441, which specifically means \"Evaporator System Malfunction\" or \"Evaporator Temperature Sensor Circuit.\" This usually points to the EVAP system, specifically the purge valve.\n\n2. ROOT CAUSE: Almost certainly the EVAP purge valve is stuck wide open, dumping raw gas into the engine constantly, causing the rich condition and the code. The high and erratic STFT swings are the computer trying to correct a massive, constant leak. The other possibilities (vacuum leak, bad injectors) don't fit this specific code and data as well.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the purge valve first.** On your Malibu, it's usually a small plastic valve on the intake side of the charcoal canister. Unplug the electrical connector and visually inspect it. If it's jammed open, or the hose leading to it is cracked/loose, that's it.\n        * **Cost:** $20 for a new valve, $5 for a new hose if needed.\n        * **Time:** 15 minutes DIY. Unplug, unscrew, check seating, screw back on tight.\n    * **Clear codes.** Free with a basic scanner app or AutoZone/O'Reilly app. See if P0441 goes away.\n    * **If the valve is fine, check for obvious vacuum leaks.** With the engine idling, spray unlit propane/lighter fluid around intake hoses and the PCV valve area. If the engine stutters or RPM changes, you found it.\n        * **Cost:** $5 for spray, 10 minutes DIY.\n    * **If the above fail, then look at injectors.** Since you're running rich, a leak test is next.\n        * **Cost:** $60-100 for an O2 sensor/injector leak test.\n        * **Time:** 1 hour DIY with a scan tool.\n    * **Only if all else fails:** EVAP system replacement.\n        * **Cost:** $150-$300 for a quality EVAP module (not the big $500+ dealer price).\n        * **Time:** 1 hour DIY.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **The $500+ EVAP system bundle.** You don't need the canister, the solenoid, and the sensor if the valve is the only thing stuck.\n    * **\"Replace all injectors\"** when the leak test shows nothing wrong with them. Your data suggests a vacuum/purge issue, not a rich mixture from bad plugs.\n    * **\"Fuel system service\"** or \"injector cleaning\" \u2014 this is a band-aid on a gas leak, not a fix.\n    * **Ignoring the code.** P0441 is specific. Don't let them pivot to something else."
+  },
+  {
+   "id": 28,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 5,
+    "cost_accuracy": 6,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running too rich\u2014too much fuel for the air it's getting. The computer is fighting it hard: your short-term fuel trim is sitting at -24%, and long-term is -17%. The oxygen sensor is stuck high at 0.83V, which is the classic sign of an unmetered fuel source. The P0172 code confirms it. Everything else looks fine: engine temp, voltage, timing are normal.\n\n2. ROOT CAUSE: Almost certainly a small leak somewhere feeding extra fuel into the engine. At 57k miles on a 1.5L turbo, the usual suspects are:\n    a) Worn/leaky fuel injector (90% chance).\n    b) Faulty/stuck EVAP purge valve letting raw gas into the engine (3% chance, but cheap to check).\n\n3. WHAT TO DO (DIY first, wallet-friendly):\n    a) **Check the most obvious leak: PCV/EVAP system.** This is the cheapest and easiest. Locate the large plastic valve on the side of the engine near the intake manifold (usually under the hood, near the big hoses). Unplug the electrical connector and spray a tiny bit of unlit propane/lighter fuel into the hose/port. If the engine RPM briefly jumps, that's your leak.\n        * Cost: $10 propane, 5 minutes.\n        * If that doesn't fix it, move to (b).\n    b) **Injector Leak-Down Test.** This is the *right* test, not just replacing parts. A shop can test all 4 injectors for leaks, or you can buy a $20 smoke machine kit and test while the engine is running (requires careful safety awareness).\n        * Cost: $60-$150 for the test.\n        * Time: 1-2 hours DIY with a smoke machine.\n    c) **Replace the worst injector.** If the test points to one, replace it. On a 2017 Malibu, the 1.5L turbo injectors are known to wear out faster than the rest.\n        * Cost: $60-$150 part + $10-$20 wrench/socket.\n        * Time: 1 hour DIY.\n    d) **O2 Sensor Check (just in case).** Since the lean condition is so severe, the sensor *could* be reacting strangely, but it's secondary.\n        * Cost: $50 for a new sensor, $10 for a cheap multimeter to check resistance while replacing.\n        * Time: 30 minutes DIY.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    a) **\"Replace all four injectors as a set.\"** NO. Only the ones that test bad need replacing. One bad injector costs $60, not $250+.\n    b) **\"Fuel system cleaning\"** ($150+). This is a band-aid. It doesn't fix a physical leak or a bad sensor.\n    c) **\"EVAP system replacement\"** ($500+). The leak test (step 3b) will tell you if it's the valve or the hose.\n    d) **\"O2 sensor replacement\"** without confirming it's the source.\n\n**BOTTOM LINE:** You can fix this yourself if you're comfortable with basic engine work and can find the leak with propane. If you're not, take the car to a shop and demand a **leak-down test** ($60-150) before they quote parts."
+  },
+  {
+   "id": 29,
+   "student": {
+    "faithfulness": 6,
+    "helpfulness": 6,
+    "cost_accuracy": 5,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is wrong right now. Your car is running perfectly. Coolant is sitting at a cool 88\u00b0C, the engine is making zero adjustments (no rough idling, no fuel hiccups), and the computer is managing everything smoothly.\n\n2. ROOT CAUSE: None. The predictor is guessing based on a very short, mild window where the car was driving normally. The slight temperature dip and load fluctuation are totally normal city driving.\n\n3. WHAT TO DO (cheapest fix first):\n    * DO NOTHING today. Keep driving normally.\n    * Next time you're parked, check the coolant level in the tank. If it's low, top it up to the \"full\" mark (usually 60-80\u00b0C, cold engine). Cost: $15.\n    * If you ever start noticing the temp gauge creeping past 90\u00b0C while sitting in traffic, *then* you check the fan and fuse.\n    * If you ever see steam or hot plastic on the engine, pull over immediately. That's real danger, not a prediction.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * The predictor's 56% cooling fan issue is a huge trap. A $5 relay is 90% of the time the problem. Don't authorize $600+ for the whole fan assembly.\n    * The \"overheating\" scare (26%) is also a trap. You don't have overheating; you have normal temperature swings. Don't panic-buy parts based on a ghost reading.\n    * Never pay for a head gasket test or engine replacement without a compression test first. $100 diagnostic."
+  },
+  {
+   "id": 30,
+   "student": {
+    "faithfulness": 9,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 10,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 10
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is wrong right now. Your engine is running perfectly. Coolant is sitting at a very normal 88.4\u00b0C, fuel delivery is perfect (STFT and LTFT are basically zero), voltage is steady at 14.2V, and the engine isn't struggling at all. The predictor's 69% guess about the cooling fan is basically noise because the car never got hot.\n\n2. ROOT CAUSE: None. The data shows a healthy 5.0L V8 at 200k miles. The only thing that's happening is the car is driving normally.\n\n3. WHAT TO DO: Nothing urgent. Just keep an eye on the temperature gauge when you're parked and driving normally.\n    * If you ever see that gauge climb past 95\u00b0C while sitting in traffic, or start seeing steam, pull over *immediately*. Don't wait for the light.\n    * If you ever notice the heat isn't coming on when the A/C is on high, or the car feels noticeably warm to the touch (not just warm), *then* check the fan fuse/relay ($5-15) and test the fan motor ($80-200 total). But don't spend money yet.\n\n4. WATCH OUT FOR: The predictor is fishing for a big repair based on a tiny, normal data set. Don't let a vague 70% guess scare you into expensive diagnostic sessions.\n    * Don't pay $600+ for a radiator/fan swap unless you've actually overheated.\n    * Don't panic about overheating; that's a crisis, not a slow leak.\n    * Don't let anyone push for coolant flushes or head gasket tests based on this data.\n\n**TL;DR: Drive it. Your car is fine.**"
+  },
+  {
+   "id": 31,
+   "student": {
+    "faithfulness": 6,
+    "helpfulness": 6,
+    "cost_accuracy": 7,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0420 code, which means the car's computer thinks your catalytic converter isn't cleaning up the exhaust gas right. The good news is your car is driving fine right now\u2014fuel economy and engine running smooth. The data doesn't scream \"pull over now,\" but it does point to the exhaust.\n\n2. ROOT CAUSE: Most likely the catalytic converter is starting to wear out (72% chance). The O2 sensor reading is a little high than ideal (0.46V average, but it's moving), which supports the cat being the weak link, not a totally broken sensor. Your fuel mixture is perfect (STFT near zero), so this isn't a rich/lean running issue.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check for an obvious leak:** Pop the hood, look for soot or smoke around the exhaust. If you see it, you found it. $0. If you see a crack, $20-30 for a small exhaust gasket/gasket sealer.\n    * **Check the O2 sensor:** Since the predictor likes sensor drift (17%), check the upstream sensor (Bank 1 Sensor 2). Unplug it, swap it with the downstream one (if they are different sensors, check your manual\u2014some cars only use the downstream one). If the code goes away, you saved $150+. If it stays, the cat is the issue. $50-150 for a new sensor. 30 min DIY.\n    * **Test the cat:** Get the code re-read at a parts store (AutoZone, RockAuto) for $50-100. If it stays P0420, the cat is bad.\n    * **Buy the right part:** Check your state's emissions laws. Many states let you install an aftermarket cat (CARB compliant) for $300-$900 total, not $1000+. Don't default to OEM unless you have a warranty or specific state law.\n    * **Urgency:** Not emergency. It's an economy/legal issue. Fix it within a few months, or sooner if you notice rough idling or poor highway merging.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **Instant OEM cat quote:** Don't pay $1000+ unless you have a warranty. Check your state's rules.\n    * **\"O2 sensor drift\" as the main fix:** The predictor weighs the cat more heavily. Fix the leak first, then the sensor.\n    * **Fuel economy \"reflash\" or \"decarbonization\" services:** These are scams. Your fuel trims are perfect right now.\n    * **Replacing all four O2 sensors at once:** Only replace the one that's actually out of spec."
+  },
+  {
+   "id": 32,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 6,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car has a P0401 code, which means the computer thinks your Exhaust Gas Recirculation (EGR) valve is stuck wide open, sending too much exhaust back into the engine. Your fuel mixture is slightly rich (8.1% short-term fuel trim, but it's barely noticeable right now), and your engine is running slightly rough. Everything else looks fine: temperature, voltage, timing are normal.\n\n2. ROOT CAUSE: Most likely the EGR valve itself is stuck open (71% predictor). Less likely is a small vacuum leak (18%), but the data leans toward the EGR system.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the vacuum hose:** Look for any cracks or loose connections near the intake manifold. Spray unlit incense near intake gaskets while idling. If you see smoke, you found the leak. Fix it: $5-20 hose, 5 min DIY.\n    * **Inspect/Clean the EGR valve:** Unplug the intake manifold and visually inspect the valve. If it's caked with carbon, try spraying it with carb cleaner (don't drown it) and letting it soak, then cleaning the passages with a wire brush. $10 part + 1-2 hours DIY.\n    * **Test for misfire:** If the check engine light is flashing, pull over *now*. If it's steady, you can wait a bit. If you get a misfire code (P030x) while driving, that points to ignition, not EGR.\n    * **If cleaning fails, replace the valve:** New part $150-400. Labor $100-200 shop.\n    * **Avoid big jobs yet:** Don't jump to a full decarbonization service ($400+). That's only if the valve is confirmed bad and cleaning doesn't fix it.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Full decarbonization service\"**: $400+. This is rarely needed; usually just cleaning the valve itself fixes it.\n    * **\"New intake manifold\"**: $150-350. Only if the leak test proves it, and it's rare.\n    * **\"Tune-up package\"**: $300+ for plugs, coils, and throttle body. Your data doesn't support ignition issues yet.\n    * **Ignoring the flashing light**: That means misfire, which can destroy your catalytic converter for $1000+. Don't risk it."
+  },
+  {
+   "id": 33,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 8,
+    "cost_accuracy": 7,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running a little lean (stft hovering near zero, ltft slightly negative), but mostly fine. The big story here is the air filter. The computer is seeing less air coming in than it expects, so it's slightly adjusting the fuel mixture, but it's barely noticing. Everything else\u2014engine temp, voltage, catalyst temp\u2014is totally normal.\n\n2. ROOT CAUSE: Air filter restriction is almost certainly the cause (93% confidence). At 163k miles on a 5.0L, the air filter is old, clogged, and starving the engine. The MAF sensor is a very minor possibility (4%), but we fix the obvious first.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Check the air filter NOW.** Pop the hood, find the big black box, pull it out. If it's grey, caked with dust, or feels spongy, replace it.\n        * **Cost:** $15\u201325 for a standard 5.0L filter.\n        * **Time:** 5 minutes. Look up your F-150 air box location online if you're lost.\n    * **Drive it.** See if the feeling changes. If it feels better, you're done.\n    * **If the lean condition returns:** Clean the MAF sensor.\n        * **Cost:** $10 MAF sensor or $10 can of spray.\n        * **Time:** 15 minutes. Unplug the connector, spray in a crosshatch pattern, let it dry, plug it back in.\n    * **Only if the above fail:** Check the exhaust for obvious blockage (rare, but possible).\n        * **Cost:** $50\u2013100 for a backpressure test.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"We need to replace the MAF sensor because it's dirty.\"** Don't pay $250+ for a sensor if the $15 filter fixes 93% of the problem.\n    * **\"Induction cleaning service\" or \"throttle body service.\"** These are marketing fluff. You don't need it unless you have rough idling or poor power.\n    * **\"We need to check the exhaust for restriction.\"** Only if the car is actually struggling to breathe, which it isn't right now.\n    * **The $350+ MAF replacement.** Save that cash unless you test the airbox first."
+  },
+  {
+   "id": 34,
+   "student": {
+    "faithfulness": 8,
+    "helpfulness": 7,
+    "cost_accuracy": 8,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING\nYour car's battery voltage is sitting high at 15.7 volts for the entire 2.5 minutes of driving. A healthy car should be between 13.5 and 14.5 volts when the engine is running. The computer is seeing this high voltage and throwing code P0563 (System Voltage Too High).\n\n2. ROOT CAUSE\nMost likely the alternator's internal regulator is stuck high, pushing voltage to 15.7V constantly. This is a failure of the alternator itself, not just the battery. The 15% alternator failure prediction is also valid because the battery is being constantly overcharged.\n\n3. WHAT TO DO (cheapest fix first)\n*   **Check the battery connection (5 min, no tools):** Look at the battery posts and the main cable. Are they tight? Are there any signs of heat or melting plastic? If loose, tighten gently. If it's loose, the alternator is definitely the problem.\n*   **Test the alternator (free):** Go to any parts store (AutoZone, Advance, O'Reilly). They test the alternator *while the car is running* and tell you if it's making the voltage too high. This is the only way to rule out a bad battery first.\n*   **If the alternator is bad (most likely):** Replace it. For a 2008 Corolla, an aftermarket or reman alternator is $150\u2013250. Labor is moderate: $150\u2013250 shop total. DIY is doable if you're comfortable with a serpentine belt and basic tools ($20-30).\n*   **Check the belt (if replacing):** If the belt is old or cracked, replace it. $20\u201330 for the belt, $150\u2013280 total.\n*   **Battery:** Only replace the battery if the test shows it's also failing (it might be fine, just overcharged). $100\u2013150 for a decent battery.\n\n4. WATCH OUT FOR (mechanic upsell traps)\n*   **\"Just replace the battery\"**: Don't. A new battery will be ruined in a week because the alternator is still sending 15.7V. You need the alternator fixed first.\n*   **\"Full alternator + new battery + labor\" package over $400**: Only pay for what's broken.\n*   **\"We need to check the wiring harness\" or \"diagnostic fee\"**: Don't pay for the test itself. The parts store test is the real money-saver here.\n*   **Ignoring the code**: P0563 means the car is actively overcharging; it's not just a warning.\n\nTL;DR: Get the alternator tested at a parts store first. That tells you if you need a battery too."
+  },
+  {
+   "id": 35,
+   "student": {
+    "faithfulness": 9,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 8
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is wrong with your Malibu right now. Everything is running exactly where it should: engine temp is perfect (88\u00b0C), fuel mixture is spot on (STFT near zero), gas mileage looks normal for city driving, and the exhaust is quiet. The computer isn't fighting itself or trying to save money yet.\n\n2. ROOT CAUSE: No fault detected (69% confidence). The small fluctuations you see\u2014RPM bouncing around 1200, load shifting from 33% to 82% while you stopped at a light\u2014are normal city driving. The O2 sensor is behaving normally, and your battery voltage is rock solid at 14.22V.\n\n3. WHAT TO DO (cheapest fix first):\n    * DO NOTHING. Keep driving.\n    * When you get an oil change (or any shop service), ask them to check spark plugs. At 111k miles, they should be replaced if they are the correct type (NGK or Denso, check your manual\u2014usually 4 plugs). Cost: $20-$40 for plugs, $10-$15 for a quality spark plug socket. Time: 1 hour DIY, or $100-$150 labor.\n    * If you ever start seeing rough idling, hesitation, or weird MPG, *then* we look at the O2 sensor.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * \"Your O2 sensors are drifting, replace them all.\" BS. Your downstream sensor is fine (0.62V average, stable). Only replace if you notice actual misfires or poor fuel economy.\n    * \"We should do the full maintenance package\" (plugs, coils, plugs, wires, filters, fluids, etc.) at 111k miles. Only replace what's worn.\n    * \"Turbo cars need special plugs/coils.\" No, standard I4 plugs work fine.\n    * Don't pay for diagnostics based on a prediction. You have zero symptoms."
+  },
+  {
+   "id": 36,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 7,
+    "cost_accuracy": 8,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car's battery is slowly dying. The voltage is bouncing between 13.03V and 13.93V over the last few minutes, and the computer noticed it (DTC P0562 means \"system voltage too high\"). It's not an immediate \"pull over\" situation yet, but you're running on borrowed time.\n\n2. ROOT CAUSE: Most likely the alternator is starting to fail (71% predictor). It's supposed to keep the car running *and* charge the battery while driving. The voltage sag you're seeing is the alternator struggling to keep up, especially in city driving where the alternator has to work hard constantly. The regulator itself is probably fine, but the alternator as a whole is weak.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Test the battery and alternator NOW.** Go to any parts store (AutoZone, Advance, O'Reilly) for a **free load test**. They plug in a meter and tell you if it's the battery or the alternator that's the weak link. Cost: $0.\n    * **If the test says the alternator is bad:** Replace it. For a 2014 Camry 2.5L, OEM or quality aftermarket alternator is about $170\u2013350. Get an **A/C or radio test** included, $0 at the store. Labor: 1\u20132 hours DIY, or $100\u2013180 labor.\n    * **If the test says the battery is bad (and the alternator is fine):** Replace the battery. A new battery is $150\u2013250. Time: 10 min.\n    * **Total worst-case cost:** $320\u2013530.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Just replace the battery\"** ($180) without testing the alternator first. If the alternator is bad, the new battery dies in a week.\n    * **\"We need a new battery AND a new alternator\"** without knowing which one is the actual failure point. Get the load test first.\n    * **\"We need to check the wiring harness\"** ($50+ labor) when the alternator itself is the $150\u2013400 part.\n    * **Ignoring the voltage swing.** If the voltage drops below 12.6V while driving, you're already stranded. Don't wait for a dead battery."
+  },
+  {
+   "id": 37,
+   "student": {
+    "faithfulness": 5,
+    "helpfulness": 6,
+    "cost_accuracy": 6,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 9,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your car is running a little rich (too much fuel for the air it's getting), which the computer is fighting. Short-term fuel trims were high (up to +23%), but long-term trims are mostly back to normal (around +2%), which is key. The P0171 code means the car is seeing a lean condition right now. Everything else looks fine: engine temp, voltage, timing are all normal.\n\n2. ROOT CAUSE: Most likely the fuel pump is starting to struggle under load (72% predictor). When you demand more gas (like accelerating or climbing a hill), it can't keep up, causing the rich spike. Less likely: the air flow sensor (MAF) is dirty, which would cause a more consistent lean, not just a spike.\n\n3. WHAT TO DO (cheapest fix first, with cost and time):\n    * **Check the obvious: Air Filter.** At 94k miles, it's probably clogged. Cost: $10 filter. Time: 5 min DIY. Sometimes this alone fixes it.\n    * **Check for obvious leaks.** Look under the car or near the fuel rail for drips. Cost: $0.\n    * **Test the fuel pressure.** This is the only way to confirm the pump. Cost: $30 fuel pressure gauge rental, or $50 diagnostic fee at a parts store. Time: 15 min DIY if you can find the hot-wire sensor (usually on the intake or rail). If it sags under load, pump is the issue.\n    * **If pressure is low, replace the fuel pump.** Cost: $150\u2013350 part + 1\u20133 hours labor. Don't pay $400+ for the whole system unless the test points there.\n    * **If pressure is fine, clean the MAF sensor.** Cost: $10 MAF cleaner, 15 min DIY. Check your Civic's specific MAF sensor location (usually behind the bumper).\n    * **Only if the above fail: look at the exhaust.** Backpressure test $50\u2013100 to rule out a clogged cat.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **Instant fuel pump replacement.** Trap: quoting $300+ for a pump that might be $150 + labor, or just a $30 gauge test.\n    * **\"Fuel system flush\" or injector service.** Trap: wastes money. The symptom is load-dependent, not constant, which points to delivery (pump/MAF), not atomization.\n    * **Replacing the MAF sensor immediately.** Trap: $250+ for a sensor that might just need cleaning.\n    * **Pushing the $350 pump package.** Only if the pressure test confirms the pump itself is weak."
+  },
+  {
+   "id": 38,
+   "student": {
+    "faithfulness": 3,
+    "helpfulness": 5,
+    "cost_accuracy": 5,
+    "anti_ripoff": 6
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 8,
+    "cost_accuracy": 8,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Your engine is getting dangerously hot. The sensor went from 95.6\u00b0C to 101.6\u00b0C in just 2.5 minutes of city driving, and it's still climbing. This is an emergency.\n\n2. ROOT CAUSE: The predictor is low (50% overheating), but the actual situation is critical: you are actively overheating. This means either the thermostat is stuck closed (can't release heat), the cooling fan isn't turning on (or is broken), or you are losing coolant fast. The fact that the gauge is climbing *now* means whatever is wrong is getting worse.\n\n3. WHAT TO DO (cheapest fix first, with cost and time):\n    * **STOP DRIVING NOW.** Pull over safely. Turn off A/C and heat. Park in the shade or turn the car off and wait 10 minutes before opening the hood.\n    * **Check coolant level.** If it's low, add coolant to the MIN/MAX line. Use the correct 50/50 mix (Mazda uses specific long-life coolant, check owner's manual, usually long life). Cost: $15. Time: 5 minutes.\n    * **Locate the leak.** Look for dripping or steam. Check hoses, radiator, and water pump area. Cost: $0.\n    * **If coolant is low and you can't find a leak, or it's already hot:** Do NOT open the radiator cap while hot. Risk of severe burns. Wait 30 minutes after stopping, then check again.\n    * **If it's still rising rapidly (above 101\u00b0C):** Get to a safe place immediately. Call roadside assistance ($100-$200) or a tow.\n    * **Once safe, diagnose:**\n        * **Thermostat:** $150\u2013250 part + $100 labor. DIY if you can find it easily (usually top of the engine).\n        * **Water Pump:** $300\u2013600 total job.\n        * **Radiator/Fan:** $200\u2013400 total.\n        * **Head gasket:** $1500\u20133000+ if confirmed (only after safe shutdown). Get a free compression test *after* the car is cool.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"It's just the thermostat, $150.\"** Trap: They install it and you still overheat because the fan is broken or the water pump is also failing. Check the fan relay ($5) and fan motor ($80\u2013200) *before* buying the thermostat.\n    * **\"We need a full radiator replacement.\"** Trap: The $600+ quote ignores the $10 relay or a bad hose.\n    * **\"Head gasket repair\"** without a full combustion-gas test. Trap: Paying thousands for a job that is actually a $150 thermostat or pump failure.\n    * **\"Stop-leak\" bottles.** Trap: These don't fix a broken cooling system; they just mask the heat, leading to total engine death."
+  },
+  {
+   "id": 39,
+   "student": {
+    "faithfulness": 7,
+    "helpfulness": 7,
+    "cost_accuracy": 5,
+    "anti_ripoff": 7
+   },
+   "teacher": {
+    "faithfulness": 9,
+    "helpfulness": 9,
+    "cost_accuracy": 8,
+    "anti_ripoff": 9
+   },
+   "student_text": "1. WHAT'S HAPPENING: Nothing is actively wrong with your truck right now. Everything is basically normal for a 166k-mile F-150 driving in the city: engine temp is cool (88\u00b0C), gas mileage looks fine (MAF and MAP tracking each other), fuel delivery is smooth (STFT is barely moving, LTFT is zero), and the engine management system is calm. The only weird thing is the predictor guessing a 60% chance of a misfire, which the data doesn't strongly support.\n\n2. ROOT CAUSE: The data is too clean to panic about. The slight bump in STFT (3.8% average, peaking at 8.1%) and MAP/MAF slight lag when you hit 36 MPH suggests the engine is just working a little harder than it used to, which is normal wear. The predictor is overthinking it.\n\n3. WHAT TO DO (cheapest fix first):\n    * **Wait and monitor:** Drive it normally. If you start feeling a shake, hesitation, or smell raw exhaust, *then* look at the coils.\n    * **Check spark plugs:** Pull them out. Are they gapped and the gap correct for your 5.0L? If they look worn (around 14mm vs 14.5mm), replace them. $20-30 for a set of NGK or Denso plugs, 30 min DIY. Don't buy iridium unless you notice rough idling.\n    * **Inspect ignition wires:** On the 5.0L, they are coil-on-side, not plug-on. Check for cracks or oil/dirt on the wires themselves. $0. If they look bad, replace them. $40-60 for a set of OEM plugs/coils.\n    * **If you start seeing misfire codes (P0300s) or rough running:** THEN check coils. $40-60 for a set of quality replacement coils. DIY if you're comfortable; $100-150 if you need a loaner set.\n    * **EGR/Catalyst:** Ignore these unless you have a noise or light problem. At 166k miles, the catalyst is likely fine, and the EGR is just getting old.\n\n4. WATCH OUT FOR (mechanic upsell traps):\n    * **\"Full tune-up\" package:** $400+ for plugs, coils, wires, plugs, and gas. You only need plugs if they are visibly worn.\n    * **\"Catalyst replacement\" scare:** Your catalyst temp is fine (550\u00b0C average), and there are no codes. Don't spend $600+ unless you hear a bang or see a light.\n    * **\"Full decarbonization service\":** $400+ for the 5.0L EGR. Only if you have confirmed soot buildup causing a real performance issue.\n    * **Ignition coil replacement without testing:** Don't buy four coils just because the predictor guessed. Test live data first."
+  }
+ ]
+}

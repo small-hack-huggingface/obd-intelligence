@@ -1,0 +1,6 @@
+gradio>=4.0
+pandas
+numpy
+xgboost
+huggingface_hub
+llama-cpp-python
