@@ -9,8 +9,11 @@ from huggingface_hub import hf_hub_download
 from pipeline import Explainer, Predictor, load_sessions, scenario_choices
 from promptlib import build_inference_prompt
 
+# Benchmarked default = Q8_0 (81.3% of Opus 4.7). CPU-constrained hosts can set
+# GGUF_FILE=pocket-mechanic-q4_k_m.gguf and MAX_TOKENS=450 as Space variables.
 GGUF_REPO = "MindFreakGamer/gemma-4-E2B-pocket-mechanic-GGUF"
-GGUF_FILE = "pocket-mechanic-q8_0.gguf"
+GGUF_FILE = os.environ.get("GGUF_FILE", "pocket-mechanic-q8_0.gguf")
+MAX_TOKENS = int(os.environ.get("MAX_TOKENS", "700"))
 PLOT_SIGNALS = ["rpm", "coolant_temp_c", "stft_pct", "control_module_voltage_v"]
 REPLAY_STEP = 15
 DEFAULT_VEHICLE = "2014 Toyota Camry, 2.5L I4, 128,000 mi"
@@ -52,7 +55,7 @@ def diagnose(window, scenario_label, vehicle, question):
     prompt = build_inference_prompt(window, vehicle, probs, dtc,
                                     question or "What's wrong with my car?", context)
     acc = ""
-    for tok in EXPLAINER.stream(prompt):
+    for tok in EXPLAINER.stream(prompt, max_tokens=MAX_TOKENS):
         acc += tok
         yield acc
 

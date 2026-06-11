@@ -40,9 +40,12 @@ def scenario_choices(df):
 
 class Explainer:
     def __init__(self, gguf_path, n_ctx=4096):
+        import os
         from llama_cpp import Llama
+        # containers often misreport cores to llama.cpp — set threads explicitly
+        n_threads = int(os.environ.get("N_THREADS", os.cpu_count() or 4))
         self.llm = Llama(model_path=str(gguf_path), n_ctx=n_ctx,
-                         n_gpu_layers=-1, verbose=False)
+                         n_gpu_layers=-1, n_threads=n_threads, verbose=False)
 
     def stream(self, prompt, max_tokens=700, temperature=0.2, top_p=0.9):
         msgs = [{"role": "system", "content": STUDENT_SYSTEM},
