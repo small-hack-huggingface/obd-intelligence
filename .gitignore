@@ -17,6 +17,7 @@ env/
 .env
 .env.*
 !.env.example
+.ssh/
 
 # IDE
 .idea/
@@ -41,6 +42,10 @@ models/
 logs/
 data/
 *.csv
+
+# Tracked training datasets are exempt from the data/csv ignores above
+!data/
+!data/**
 
 # Gradio / Jupyter
 .gradio/
