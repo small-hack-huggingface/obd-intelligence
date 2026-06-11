@@ -50,3 +50,5 @@ data/
 # Gradio / Jupyter
 .gradio/
 .ipynb_checkpoints/
+adapters/
+data/mlx/
