@@ -48,8 +48,12 @@ def replay(scenario_label):
 
 def diagnose(window, scenario_label, vehicle, question):
     if window is None or len(window) < 30:
-        yield "Run a replay first so I have sensor data to look at."
+        yield "⚠️ Click **▶ Start drive** first so I have sensor data to look at."
         return
+    yield ("⏳ *Reading your sensor data and thinking…*\n\n"
+           "*(This demo runs on a plain CPU — no GPU anywhere — so the first words "
+           "take up to a minute. On a phone or laptop the same model streams "
+           "instantly via its GPU.)*")
     _, dtc, context = session_meta(scenario_label)
     probs = PREDICTOR.predict(window)
     prompt = build_inference_prompt(window, vehicle, probs, dtc,
