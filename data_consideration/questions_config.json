@@ -1,0 +1,72 @@
+{
+  "default": 5,
+  "by_category": {
+    "automotive_fundamentals": 5,
+    "automotive_diagnostics": 10,
+    "other_automotive_information": 5
+  },
+  "by_source_file": {
+    "fault_profiles.md": 20,
+    "deep-research-report-fault-signatures.md": 20,
+    "deep-research-report-fault-reference.md": 20,
+    "deep-research-report-diagnostics.md": 10,
+    "toyota_dtc_definitions.md": 10,
+    "pid_definitions.md": 5,
+    "toyota_pid_definitions.md": 5,
+    "deep-research-report-random-conversation.md": 5
+  },
+  "by_chunk_id": {},
+  "term_questions": {
+    "default": 10,
+    "by_category": {
+      "automotive_fundamentals": 15,
+      "automotive_diagnostics": 25,
+      "other_automotive_information": 5
+    },
+    "by_source_file": {
+      "fault_profiles.md": 30,
+      "deep-research-report-fault-signatures.md": 30,
+      "deep-research-report-fault-reference.md": 30,
+      "deep-research-report-diagnostics.md": 25,
+      "toyota_dtc_definitions.md": 25,
+      "pid_definitions.md": 12,
+      "toyota_pid_definitions.md": 12,
+      "deep-research-report-random-conversation.md": 5
+    },
+    "by_chunk_id": {}
+  },
+  "system_prompts": {
+    "default": "prompts/default.md",
+    "by_category": {
+      "automotive_fundamentals": "prompts/fundamentals.md",
+      "automotive_diagnostics": "prompts/diagnostics.md",
+      "other_automotive_information": "prompts/other.md"
+    },
+    "by_source_file": {
+      "fault_profiles.md": "prompts/diagnostics.md",
+      "deep-research-report-fault-signatures.md": "prompts/diagnostics.md",
+      "deep-research-report-fault-reference.md": "prompts/diagnostics.md",
+      "deep-research-report-diagnostics.md": "prompts/diagnostics.md",
+      "toyota_dtc_definitions.md": "prompts/diagnostics.md"
+    },
+    "by_chunk_id": {}
+  },
+  "term_system_prompts": {
+    "default": "prompts/term_clarification.md",
+    "by_category": {
+      "automotive_fundamentals": "prompts/term_clarification_fundamentals.md",
+      "automotive_diagnostics": "prompts/term_clarification_diagnostics.md",
+      "other_automotive_information": "prompts/term_clarification.md"
+    },
+    "by_source_file": {
+      "fault_profiles.md": "prompts/term_clarification_diagnostics.md",
+      "deep-research-report-fault-signatures.md": "prompts/term_clarification_diagnostics.md",
+      "deep-research-report-fault-reference.md": "prompts/term_clarification_diagnostics.md",
+      "deep-research-report-diagnostics.md": "prompts/term_clarification_diagnostics.md",
+      "toyota_dtc_definitions.md": "prompts/term_clarification_diagnostics.md",
+      "pid_definitions.md": "prompts/term_clarification_fundamentals.md",
+      "toyota_pid_definitions.md": "prompts/term_clarification_fundamentals.md"
+    },
+    "by_chunk_id": {}
+  }
+}

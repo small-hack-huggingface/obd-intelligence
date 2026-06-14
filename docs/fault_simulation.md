@@ -2,7 +2,7 @@
 
 How to simulate automotive faults in the **ELM327-emulator** `car` scenario for training and testing the OBD Intelligence pipeline.
 
-**Prerequisites:** emulator running (`elm327-emulator -s car -n 35000`), Python env `small-hack-1`. See [test_commands.md](test_commands.md).
+**Prerequisites:** emulator running (`elm327-emulator -s car -n 35000`), Python env `small-hack-1`. See [test_commands.md](test_commands.md). For OBD signatures without code, see [fault_profiles.md](fault_profiles.md).
 
 ---
 
@@ -938,6 +938,8 @@ Example causal pairing:
 
 ## See also
 
+- [pid_definitions.md](pid_definitions.md) — OBD-II PID meanings, units, and encoding
+- [fault_profiles.md](fault_profiles.md) — plain-language OBD signatures and simulation concepts (no code)
 - [test_commands.md](test_commands.md) — emulator setup, `test` probes, basic overrides
 - [emulator_car_queries.md](emulator_car_queries.md) — baseline healthy values for `car`
 - [../README.md](../README.md) — pipeline architecture
