@@ -198,6 +198,84 @@ Tokenization uses `enable_thinking=False` — thinking tags are already in the l
 
 ---
 
+## Training dataset
+
+**Hub:** [build-small-hackathon/nemotron-car-diagnostics-datasets](https://huggingface.co/build-small-hackathon/nemotron-car-diagnostics-datasets)
+
+The dataset is **synthetic SFT data** for car diagnostics: shop-style questions, short answers, and verbose first-person **reasoning** traces. It is built from classified OBD/Toyota hybrid documentation — not from live scan logs.
+
+### Scale and mix
+
+| | Count | Share |
+|---|------:|------:|
+| **Total examples** | **15,048** | 100% |
+| Term clarification (`term_clarification`) | 9,678 | **64%** |
+| Chunk Q&A (`chunk_qa`) | 5,370 | **36%** |
+
+Both example types are generated **twice** (two teacher LLMs on Modal vLLM), then merged with dedupe on `id`:
+
+| Pipeline | `gpt-oss-120b` | `nvidia-nemotron-3-nano-30b-a3b-bf16` | Subtotal |
+|----------|---------------:|---------------------------------------:|---------:|
+| Chunk Q&A | 2,695 | 2,675 | 5,370 |
+| Term clarification | 4,960 | 4,718 | 9,678 |
+
+### Source documentation (top topics)
+
+Examples are grounded in chunks from project markdown under `data_consideration/`:
+
+| Source file | ~Examples |
+|-------------|----------:|
+| `deep-research-report-diagnostics.md` | 4,725 |
+| `deep-research-report-fault-reference.md` | 3,140 |
+| `deep-research-report-fault-signatures.md` | 2,300 |
+| `fault_profiles.md` | 2,180 |
+| `toyota_dtc_definitions.md` | 1,165 |
+| PID / fundamentals docs | ~1,000 |
+
+Question counts per chunk vary by category and source (`data_consideration/questions_config.json`) — e.g. more questions from fault-signature and fault-reference docs.
+
+### Two example types
+
+**1. Chunk Q&A (`chunk_qa`)** — diagnostic questions answerable from a doc chunk.
+
+- Pass 1: generate N shop-floor questions (PIDs, DTCs, symptoms, troubleshooting).
+- Pass 2: `verbose_reasoning.md` → concise **answer** + first-person **reasoning** using chunk context privately.
+- User message at training time: **question only** (no chunk text).
+
+Example focus: *“When STFT stays above +10% with normal MAF, what should you check first?”*
+
+**2. Term clarification (`term_clarification`)** — vocabulary and concept clarity.
+
+- Pass 1: pick confusing automotive terms (PIDs, DTCs, acronyms, OBD concepts) and learner-style questions.
+- Pass 2: same reasoning pass → answer + monologue explaining the term in diagnostic terms.
+- Records include a `term` field; user message is still **question only**.
+
+Example focus: *“What does ‘fuel trim’ mean when I’m looking at live data?”*
+
+### Why reasoning is in the dataset
+
+Nemotron 3 is trained for **thinking-style** outputs (`<think>…</think>`). This project fine-tunes that behavior for **automotive diagnostics**:
+
+1. **Teach process, not just facts** — Reasoning is a first-person diagnostic monologue (“I’d check…”, “If STFT is high, I’d suspect…”). The model learns *how* to work through a problem, not only the final line.
+2. **Match deployment format** — At inference the user sends a question; the model should emit thinking then a concise answer. SFT labels mirror that: assistant content is `thinking + answer`.
+3. **Chunk context is hidden at inference** — Teachers use chunk text to ensure accuracy, but reasoning must **not** cite “the chunk” or “the context” (`verbose_reasoning.md`). That trains standalone shop-floor thinking from a bare question.
+4. **Assistant-only loss** — `train_on_responses_only` masks the user turn; the model is not trained to predict the question, only the reasoning + answer. That concentrates capacity on generation quality and reasoning style.
+
+Token stats on the merged corpus (Nemotron tokenizer): **p50 ~300**, **p99 ~650**, **max ~6,200** tokens — `max_seq_length=8192` fits all examples without truncation.
+
+### Hub row schema
+
+Each row pushed to Hugging Face includes:
+
+| Column | Description |
+|--------|-------------|
+| `id` | Stable key (`source:chunk:teacher:index`) |
+| `example_type` | `chunk_qa` or `term_clarification` |
+| `question`, `answer`, `reasoning` | Flat fields |
+| `messages` | `[{user: question}, {assistant: <think>reasoning</think>answer}]` |
+
+---
+
 ## Part 2 — Merge and publish dataset
 
 ### 2.1 Merge training JSONL
@@ -216,7 +294,7 @@ python scripts/merge_training_data.py --no-dedupe
 | `--types` | `chunk_qa` + `term_clarification` |
 | `--models` | all (optional substring filter on filename) |
 
-Current merged corpus: **~15k examples** (both teacher models, deduped by `id`).
+See [Training dataset](#training-dataset) for counts, mix, and reasoning rationale. Merged file: **15,048** examples (deduped by `id`).
 
 ### 2.2 Analyze sequence lengths (optional)
 
