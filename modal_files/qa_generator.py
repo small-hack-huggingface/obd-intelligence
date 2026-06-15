@@ -15,13 +15,15 @@ from jsonl_utils import (
     PromptsConfig,
     QuestionsConfig,
     append_jsonl_record,
-    clear_jsonl_dir,
+    model_slug,
     read_jsonl,
+    training_jsonl_path,
     validate_num_questions,
 )
 from llm_client import DEFAULT_MODEL
 from reasoning_pass import enrich_with_reasoning, make_reasoning_generator
 from structured_invoke import invoke_parsed, make_structured_generator
+from training_format import build_nemotron_messages
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT = ROOT / "classified_chunks" / "all_chunks.jsonl"
@@ -30,7 +32,6 @@ DEFAULT_TRAINING_DIR = ROOT / "training_data"
 DEFAULT_QUESTIONS_CONFIG = ROOT / "data_consideration" / "questions_config.json"
 INFERENCE_TIMEOUT = 15 * 60
 ALL_QA_JSONL = "all_qa.jsonl"
-TRAINING_JSONL = "all_examples.jsonl"
 QA_MAX_TOKENS = 8192
 
 _DEFAULT_PROMPT_PATH = ROOT / "data_consideration" / "prompts" / "default.md"
@@ -50,9 +51,16 @@ QA_SYSTEM = (
 
 
 class GeneratorCache:
-    def __init__(self, base_url: str, model: str) -> None:
+    def __init__(
+        self,
+        base_url: str,
+        api_model: str,
+        *,
+        extra_body: dict[str, Any] | None = None,
+    ) -> None:
         self.base_url = base_url
-        self.model = model
+        self.api_model = api_model
+        self.extra_body = extra_body
         self._generators: dict[int, Runnable] = {}
 
     def get(self, num_questions: int) -> Runnable:
@@ -61,7 +69,8 @@ class GeneratorCache:
             self._generators[num_questions] = make_qa_generator(
                 self.base_url,
                 num_questions,
-                self.model,
+                self.api_model,
+                extra_body=self.extra_body,
             )
         return self._generators[num_questions]
 
@@ -96,6 +105,8 @@ def make_qa_generator(
     base_url: str,
     num_questions: int,
     model: str = DEFAULT_MODEL,
+    *,
+    extra_body: dict[str, Any] | None = None,
 ) -> Runnable:
     schema = make_qa_schema(num_questions)
     return make_structured_generator(
@@ -103,11 +114,16 @@ def make_qa_generator(
         schema,
         max_tokens=QA_MAX_TOKENS,
         model=model,
+        extra_body=extra_body,
     )
 
 
-def load_existing_chunk_ids(output_dir: Path) -> set[str]:
-    return {record["chunk_id"] for record in read_jsonl(output_dir / ALL_QA_JSONL)}
+def load_existing_chunk_ids(output_dir: Path, *, model: str) -> set[str]:
+    return {
+        record["chunk_id"]
+        for record in read_jsonl(output_dir / ALL_QA_JSONL)
+        if record.get("model", DEFAULT_MODEL) == model
+    }
 
 
 def append_training_examples(
@@ -122,11 +138,13 @@ def append_training_examples(
     model: str,
 ) -> None:
     """Append one flat JSONL line per question for fine-tuning."""
-    training_dir.mkdir(parents=True, exist_ok=True)
+    out_path = training_jsonl_path(training_dir, example_type="chunk_qa", model=model)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    slug = model_slug(model)
     for idx, item in enumerate(items):
         example = {
             "example_type": "chunk_qa",
-            "id": f"{chunk_id}:{idx}",
+            "id": f"{chunk_id}:{slug}:{idx}",
             "chunk_id": chunk_id,
             "question_index": idx,
             "category": category,
@@ -135,24 +153,17 @@ def append_training_examples(
             "question": item["question"],
             "answer": item["answer"],
             "reasoning": item["reasoning"],
-            "messages": [
+            "messages": build_nemotron_messages(
                 {
-                    "role": "user",
-                    "content": f"Context:\n{context}\n\nQuestion:\n{item['question']}",
-                },
-                {
-                    "role": "assistant",
-                    "content": (
-                        f"Answer:\n{item['answer']}\n\nReasoning:\n{item['reasoning']}"
-                    ),
-                },
-            ],
+                    "question": item["question"],
+                    "answer": item["answer"],
+                    "reasoning": item["reasoning"],
+                }
+            ),
             "run_at": run_at,
             "model": model,
         }
-        append_jsonl_record(training_dir / TRAINING_JSONL, example)
-        if category:
-            append_jsonl_record(training_dir / f"{category}.jsonl", example)
+        append_jsonl_record(out_path, example)
 
 
 def generate_chunk_qa(
@@ -213,8 +224,11 @@ def run_pipeline(
     fresh: bool = False,
     limit: int | None = None,
     model: str = DEFAULT_MODEL,
+    api_model: str | None = None,
+    extra_body: dict[str, Any] | None = None,
 ) -> Counter:
     validate_num_questions(num_questions)
+    api = api_model or model
     questions = QuestionsConfig.load(questions_config, default=num_questions)
     prompts = PromptsConfig.from_config(
         questions_config,
@@ -224,11 +238,12 @@ def run_pipeline(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / ALL_QA_JSONL
+    training_path = training_jsonl_path(training_dir, example_type="chunk_qa", model=model)
 
     if fresh:
         output_path.unlink(missing_ok=True)
         (output_dir / "preview.md").unlink(missing_ok=True)
-        clear_jsonl_dir(training_dir)
+        training_path.unlink(missing_ok=True)
 
     chunks = read_jsonl(input_jsonl)
     if not chunks:
@@ -237,9 +252,11 @@ def run_pipeline(
     if limit is not None:
         chunks = chunks[:limit]
 
-    generators = GeneratorCache(base_url, model)
-    reasoning_generator = make_reasoning_generator(base_url, model)
-    existing_ids = load_existing_chunk_ids(output_dir)
+    generators = GeneratorCache(base_url, api, extra_body=extra_body)
+    reasoning_generator = make_reasoning_generator(
+        base_url, api, extra_body=extra_body
+    )
+    existing_ids = load_existing_chunk_ids(output_dir, model=model)
     run_at = datetime.now(timezone.utc).isoformat()
     added_by_count: Counter = Counter()
     skipped = 0
@@ -290,15 +307,16 @@ def run_pipeline(
         )
         existing_ids.add(chunk_id)
         added_by_count[chunk_num_questions] += 1
-        print(f"  saved {len(items)} items -> {ALL_QA_JSONL}, {TRAINING_JSONL}")
+        print(f"  saved {len(items)} items -> {ALL_QA_JSONL}, {training_path.name}")
 
     write_preview(output_dir)
-    training_count = len(read_jsonl(training_dir / TRAINING_JSONL))
+    training_count = len(read_jsonl(training_path)) if training_path.exists() else 0
     print(f"\nInput:    {input_jsonl} ({len(chunks)} chunks)")
+    print(f"Model:    {model} (api: {api})")
     if questions_config and questions_config.exists():
         print(f"Config:   {questions_config}")
     print(f"Output:   {output_path}")
-    print(f"Training: {training_dir / TRAINING_JSONL} ({training_count} examples)")
+    print(f"Training: {training_path} ({training_count} examples)")
     print(f"Added:    {sum(added_by_count.values())} chunks (skipped {skipped} duplicates)")
     for count, chunks_added in sorted(added_by_count.items()):
         print(f"  {count} questions/chunk: {chunks_added} chunks")

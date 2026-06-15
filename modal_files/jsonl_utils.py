@@ -11,6 +11,31 @@ ROOT = Path(__file__).resolve().parents[1]
 MAX_QUESTIONS_PER_CHUNK = 20
 MAX_TERM_QUESTIONS_PER_CHUNK = 30
 
+CHUNK_QA_TRAINING_DIR = "chunk_qa"
+TERM_TRAINING_DIR = "term_clarification"
+
+
+def model_slug(model: str) -> str:
+    """Short stable id for training example keys (e.g. openai/gpt-oss-120b -> gpt-oss-120b)."""
+    name = model.rsplit("/", 1)[-1]
+    return name.replace(".", "-").lower()
+
+
+def training_jsonl_path(
+    training_dir: Path,
+    *,
+    example_type: str,
+    model: str,
+) -> Path:
+    """Path for flat training JSONL split by example type and model."""
+    if example_type == "chunk_qa":
+        subdir = CHUNK_QA_TRAINING_DIR
+    elif example_type == "term_clarification":
+        subdir = TERM_TRAINING_DIR
+    else:
+        raise ValueError(f"Unknown example_type: {example_type}")
+    return training_dir / subdir / f"{model_slug(model)}.jsonl"
+
 
 def resolve_chunk_override(
     chunk: dict[str, Any],
@@ -62,6 +87,34 @@ def append_jsonl_record(path: Path, record: dict[str, Any]) -> None:
     with path.open("a", encoding="utf-8") as f:
         f.write(line)
         f.flush()
+
+
+def write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+        for record in records:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+
+def merge_jsonl_files(
+    paths: list[Path],
+    *,
+    dedupe_key: str = "id",
+    dedupe: bool = True,
+) -> tuple[list[dict[str, Any]], int]:
+    merged: list[dict[str, Any]] = []
+    seen: set[Any] = set()
+    skipped = 0
+    for path in sorted(paths):
+        for record in read_jsonl(path):
+            if dedupe and dedupe_key in record:
+                key = record[dedupe_key]
+                if key in seen:
+                    skipped += 1
+                    continue
+                seen.add(key)
+            merged.append(record)
+    return merged, skipped
 
 
 def clear_jsonl_dir(directory: Path) -> None:

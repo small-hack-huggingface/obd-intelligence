@@ -52,3 +52,34 @@ data/
 .ipynb_checkpoints/
 adapters/
 data/mlx/
+
+# Modal / Unsloth training
+experiments/
+wandb/
+outputs/
+unsloth_compiled_cache/
+llama.cpp/
+
+# Downloaded fine-tunes (canonical copies on Hugging Face)
+nemotron-gguf/
+nemotron-*-lora/
+
+# Training pipeline JSONL (canonical dataset on Hugging Face)
+training_data/
+generated_qa/
+generated_term_qa/
+
+# Scratch / local analysis output
+scratch_code/
+
+# PyTorch / PEFT checkpoint shards
+*.safetensors
+optimizer.pt
+scheduler.pt
+rng_state.pth
+training_args.bin
+
+# Bench run outputs
+bench/results*.json
+bench/results*.jsonl
+bench/results*.partial.jsonl

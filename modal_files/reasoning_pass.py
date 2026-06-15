@@ -44,12 +44,18 @@ class AnswerWithReasoning(BaseModel):
     )
 
 
-def make_reasoning_generator(base_url: str, model: str = DEFAULT_MODEL) -> Runnable:
+def make_reasoning_generator(
+    base_url: str,
+    model: str = DEFAULT_MODEL,
+    *,
+    extra_body: dict[str, Any] | None = None,
+) -> Runnable:
     return make_structured_generator(
         base_url,
         AnswerWithReasoning,
         max_tokens=REASONING_MAX_TOKENS,
         model=model,
+        extra_body=extra_body,
     )
 
 

@@ -16,13 +16,16 @@ from jsonl_utils import (
     PromptsConfig,
     QuestionsConfig,
     append_jsonl_record,
+    model_slug,
     read_jsonl,
+    training_jsonl_path,
     validate_num_questions,
 )
 from llm_client import DEFAULT_MODEL
-from qa_generator import DEFAULT_INPUT, DEFAULT_QUESTIONS_CONFIG, DEFAULT_TRAINING_DIR, TRAINING_JSONL
+from qa_generator import DEFAULT_INPUT, DEFAULT_QUESTIONS_CONFIG, DEFAULT_TRAINING_DIR
 from reasoning_pass import enrich_with_reasoning, make_reasoning_generator
 from structured_invoke import invoke_parsed, make_structured_generator
+from training_format import build_nemotron_messages
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "generated_term_qa"
@@ -80,6 +83,8 @@ def make_term_generator(
     base_url: str,
     num_items: int,
     model: str = DEFAULT_MODEL,
+    *,
+    extra_body: dict[str, Any] | None = None,
 ) -> Runnable:
     schema = make_term_schema(num_items)
     return make_structured_generator(
@@ -87,13 +92,21 @@ def make_term_generator(
         schema,
         max_tokens=TERM_QA_MAX_TOKENS,
         model=model,
+        extra_body=extra_body,
     )
 
 
 class TermGeneratorCache:
-    def __init__(self, base_url: str, model: str) -> None:
+    def __init__(
+        self,
+        base_url: str,
+        api_model: str,
+        *,
+        extra_body: dict[str, Any] | None = None,
+    ) -> None:
         self.base_url = base_url
-        self.model = model
+        self.api_model = api_model
+        self.extra_body = extra_body
         self._generators: dict[int, Runnable] = {}
 
     def get(self, num_items: int) -> Runnable:
@@ -102,13 +115,18 @@ class TermGeneratorCache:
             self._generators[num_items] = make_term_generator(
                 self.base_url,
                 num_items,
-                self.model,
+                self.api_model,
+                extra_body=self.extra_body,
             )
         return self._generators[num_items]
 
 
-def load_existing_chunk_ids(output_dir: Path) -> set[str]:
-    return {record["chunk_id"] for record in read_jsonl(output_dir / ALL_TERM_QA_JSONL)}
+def load_existing_chunk_ids(output_dir: Path, *, model: str) -> set[str]:
+    return {
+        record["chunk_id"]
+        for record in read_jsonl(output_dir / ALL_TERM_QA_JSONL)
+        if record.get("model", DEFAULT_MODEL) == model
+    }
 
 
 def append_term_training_examples(
@@ -122,11 +140,15 @@ def append_term_training_examples(
     run_at: str,
     model: str,
 ) -> None:
-    training_dir.mkdir(parents=True, exist_ok=True)
+    out_path = training_jsonl_path(
+        training_dir, example_type="term_clarification", model=model
+    )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    slug = model_slug(model)
     for idx, item in enumerate(items):
         example = {
             "example_type": "term_clarification",
-            "id": f"{chunk_id}:term:{idx}",
+            "id": f"{chunk_id}:{slug}:term:{idx}",
             "chunk_id": chunk_id,
             "question_index": idx,
             "term": item["term"],
@@ -136,27 +158,17 @@ def append_term_training_examples(
             "question": item["question"],
             "answer": item["answer"],
             "reasoning": item["reasoning"],
-            "messages": [
+            "messages": build_nemotron_messages(
                 {
-                    "role": "user",
-                    "content": (
-                        f"I don't understand the term \"{item['term']}\" in this context:\n"
-                        f"{context}\n\nQuestion: {item['question']}"
-                    ),
-                },
-                {
-                    "role": "assistant",
-                    "content": (
-                        f"Answer:\n{item['answer']}\n\nReasoning:\n{item['reasoning']}"
-                    ),
-                },
-            ],
+                    "question": item["question"],
+                    "answer": item["answer"],
+                    "reasoning": item["reasoning"],
+                }
+            ),
             "run_at": run_at,
             "model": model,
         }
-        append_jsonl_record(training_dir / TRAINING_JSONL, example)
-        if category:
-            append_jsonl_record(training_dir / f"{category}.jsonl", example)
+        append_jsonl_record(out_path, example)
 
 
 def generate_chunk_term_qa(
@@ -219,8 +231,11 @@ def run_pipeline(
     fresh: bool = False,
     limit: int | None = None,
     model: str = DEFAULT_MODEL,
+    api_model: str | None = None,
+    extra_body: dict[str, Any] | None = None,
 ) -> Counter:
     validate_num_questions(num_questions, maximum=MAX_TERM_QUESTIONS_PER_CHUNK)
+    api = api_model or model
     questions = QuestionsConfig.load(
         questions_config,
         default=num_questions,
@@ -234,10 +249,14 @@ def run_pipeline(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / ALL_TERM_QA_JSONL
+    training_path = training_jsonl_path(
+        training_dir, example_type="term_clarification", model=model
+    )
 
     if fresh:
         output_path.unlink(missing_ok=True)
         (output_dir / "preview.md").unlink(missing_ok=True)
+        training_path.unlink(missing_ok=True)
 
     chunks = read_jsonl(input_jsonl)
     if not chunks:
@@ -246,9 +265,11 @@ def run_pipeline(
     if limit is not None:
         chunks = chunks[:limit]
 
-    generators = TermGeneratorCache(base_url, model)
-    reasoning_generator = make_reasoning_generator(base_url, model)
-    existing_ids = load_existing_chunk_ids(output_dir)
+    generators = TermGeneratorCache(base_url, api, extra_body=extra_body)
+    reasoning_generator = make_reasoning_generator(
+        base_url, api, extra_body=extra_body
+    )
+    existing_ids = load_existing_chunk_ids(output_dir, model=model)
     run_at = datetime.now(timezone.utc).isoformat()
     added_by_count: Counter = Counter()
     skipped = 0
@@ -302,14 +323,16 @@ def run_pipeline(
         )
         existing_ids.add(chunk_id)
         added_by_count[chunk_num_items] += 1
-        print(f"  saved {len(items)} items -> {ALL_TERM_QA_JSONL}, {TRAINING_JSONL}")
+        print(f"  saved {len(items)} items -> {ALL_TERM_QA_JSONL}, {training_path.name}")
 
     write_preview(output_dir)
+    training_count = len(read_jsonl(training_path)) if training_path.exists() else 0
     print(f"\nInput:    {input_jsonl} ({len(chunks)} chunks)")
+    print(f"Model:    {model} (api: {api})")
     if questions_config and questions_config.exists():
         print(f"Config:   {questions_config}")
     print(f"Output:   {output_path}")
-    print(f"Training: {training_dir / TRAINING_JSONL} (appended term_clarification rows)")
+    print(f"Training: {training_path} ({training_count} examples)")
     print(f"Added:    {sum(added_by_count.values())} chunks (skipped {skipped} duplicates)")
     for count, chunks_added in sorted(added_by_count.items()):
         print(f"  {count} terms/chunk: {chunks_added} chunks")
