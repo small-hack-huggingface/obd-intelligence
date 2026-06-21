@@ -64,6 +64,190 @@ flowchart LR
 
 ---
 
+## How Modal is used
+
+Modal plays **two different roles** in this project:
+
+1. **Data generation** — long-running **vLLM inference servers** on Modal GPUs; generation scripts on your machine call them over HTTPS (OpenAI-compatible API).
+2. **Training & export** — **GPU training jobs** run entirely inside Modal containers; dataset comes from Hugging Face; artifacts persist on Modal **Volumes**.
+
+```mermaid
+flowchart TB
+  subgraph laptop [Your machine]
+    CLI[classify_chunks / generate_questions / generate_term_questions]
+    MERGE[merge + push scripts]
+    MODAL_CLI[modal run finetune_nemotron.py]
+  end
+
+  subgraph modal_infer [Modal — inference apps deployed]
+    NEMO[nemotron-nano-vllm<br/>H200 + vLLM]
+    GPT[gpt-oss-vllm<br/>H200 + vLLM]
+  end
+
+  subgraph modal_train [Modal — training app]
+    FT[finetune-nemotron<br/>L40S + Unsloth]
+    VOL[(Volumes)]
+  end
+
+  subgraph hf [Hugging Face]
+    DS[dataset]
+    LORA_H[lora repo]
+    GGUF_H[gguf repo]
+  end
+
+  CLI -->|HTTPS /v1/chat/completions| NEMO
+  CLI -->|HTTPS /v1/chat/completions| GPT
+  CLI -->|writes JSONL locally| MERGE
+  MERGE --> DS
+  MODAL_CLI -->|finetune.remote| FT
+  DS -->|load_dataset| FT
+  FT --> VOL
+  FT --> LORA_H
+  FT --> GGUF_H
+```
+
+### Modal apps
+
+| App | File | Role | GPU | Deploy |
+|-----|------|------|-----|--------|
+| `nemotron-nano-vllm` | `modal_files/nemotron-nano-vllm.py` | Teacher LLM for classification + generation (`--llm nemotron`) | **H200** ×1 | `modal deploy modal_files/nemotron-nano-vllm.py` |
+| `gpt-oss-vllm` | `modal_files/gpt_oss_vllm.py` | Second teacher (`--llm gpt-oss`, 120B) | **H200** ×1 | `modal deploy modal_files/gpt_oss_vllm.py` |
+| `classify-chunks` | `modal_files/classify_chunks.py` | Entrypoint only — calls Nemotron vLLM URL | — (client) | `modal run ...` |
+| `generate-questions` | `modal_files/generate_questions.py` | Entrypoint only — chunk Q&A pipeline | — (client) | `modal run ...` |
+| `generate-term-questions` | `modal_files/generate_term_questions.py` | Entrypoint only — term Q&A pipeline | — (client) | `modal run ...` |
+| `finetune-nemotron` | `modal_files/finetune_nemotron.py` | LoRA SFT + GGUF export + Hub push | **L40S** ×1 | `modal run ...` |
+
+**Secret (all GPU apps):** `huggingface-secret` with `HF_TOKEN` for gated models and Hub uploads.
+
+### Data generation on Modal
+
+#### Step 0 — Deploy inference servers (one-time / keep warm)
+
+```powershell
+modal deploy modal_files/nemotron-nano-vllm.py
+modal deploy modal_files/gpt-oss_vllm.py   # optional second teacher
+```
+
+Each app exposes a **`serve`** web endpoint (`@modal.web_server` on port 8000). vLLM serves an OpenAI-compatible API at `/v1/chat/completions`.
+
+| Server | Model | Notes |
+|--------|-------|-------|
+| Nemotron | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` | `min_containers=1` keeps one H200 warm; reasoning parser for Nemotron |
+| GPT-OSS | `openai/gpt-oss-120b` | Served as `llm`; JSON mode for structured outputs |
+
+**Volumes (inference):**
+
+| Volume | Used by | Purpose |
+|--------|---------|---------|
+| `huggingface-cache` | vLLM + finetune | Shared HF model weight cache |
+| `vllm-cache` | vLLM | vLLM compilation / KV cache artifacts |
+| `flashinfer-cache` | gpt-oss only | FlashInfer MoE kernels |
+
+#### Step 1 — Classify chunks
+
+```powershell
+modal run modal_files/classify_chunks.py
+```
+
+- Runs **`@app.local_entrypoint`** on your machine.
+- Resolves live URL: `modal.Function.from_name("nemotron-nano-vllm", "serve").get_web_url()`.
+- Splits `data_consideration/*.md` → chunks, classifies each via **ChatOpenAI** → HTTP to Modal vLLM.
+- Writes **`classified_chunks/all_chunks.jsonl`** locally (not on a Modal volume).
+
+#### Step 2 — Generate Q&A (two pipelines × two teachers)
+
+```powershell
+modal run modal_files/generate_questions.py --llm nemotron
+modal run modal_files/generate_questions.py --llm gpt-oss
+
+modal run modal_files/generate_term_questions.py --llm nemotron
+modal run modal_files/generate_term_questions.py --llm gpt-oss
+```
+
+- `modal_llm_url.get_serve_url_sync(profile)` picks the right deployed app from `llm_profiles.py`.
+- **`qa_generator.run_pipeline`** / **`term_qa_generator.run_pipeline`** run on your machine.
+- Each chunk: **Pass 1** structured question generation → **Pass 2** answer + reasoning (`reasoning_pass.py`) — both are HTTP calls to the Modal vLLM URL.
+- **Incremental / resumable:** appends to `generated_qa/`, `generated_term_qa/`, and `training_data/chunk_qa/{model}.jsonl`, `training_data/term_clarification/{model}.jsonl` on disk.
+- **`--limit N`** for smoke tests; **`--fresh`** clears outputs for that run.
+
+**Why Modal for generation?** Teacher models (30B A3B, 120B) need **H200-class VRAM**. Your laptop orchestrates; Modal runs inference at scale without shipping 15k examples through a single Modal function.
+
+**What is *not* on Modal for data gen:** merged JSONL, merge/push scripts — those run locally (or any machine with `HF_TOKEN`).
+
+### Training on Modal
+
+#### What runs inside the container
+
+`modal run modal_files/finetune_nemotron.py` calls **`finetune.remote(config)`** — the full job runs on Modal:
+
+| Phase | What happens |
+|-------|----------------|
+| Load dataset | `datasets.load_dataset("build-small-hackathon/nemotron-car-diagnostics-datasets")` from Hub |
+| Preprocess | 90/10 split (`seed=42`), Nemotron chat template → `text` column; cached on volume |
+| Load model | `unsloth/NVIDIA-Nemotron-3-Nano-4B` + **mamba-ssm** (hybrid Mamba layers) |
+| Train | Unsloth LoRA, `SFTTrainer`, **assistant-only loss** on thinking + answer |
+| Checkpoint | Best `eval_loss`; `save_total_limit=1` during training |
+| Save | `best_model/` LoRA on volume |
+| Export | Merge + GGUF (`q4_k_m`, `q8_0`) via llama.cpp in image; optional Hub push |
+
+#### Training image
+
+- Base: `nvidia/cuda:12.8.1-devel-ubuntu22.04` (needed for `mamba-ssm` / `causal-conv1d` compile)
+- Stack: `unsloth[cu128-torch270]`, **transformers 5.x**, `trl`, `gguf`, prebuilt **llama.cpp** at `/root/.unsloth/llama.cpp`
+
+#### Training volumes
+
+| Volume | Mount | Contents |
+|--------|-------|----------|
+| `huggingface-cache` | `/model_cache` | Base model download cache (shared with vLLM) |
+| `unsloth-dataset-cache` | `/dataset_cache` | Tokenized train/eval splits per dataset repo |
+| `unsloth-checkpoints` | `/checkpoints` | `experiments/{name}/best_model`, `gguf/`, `checkpoint-*` |
+
+#### Export without retraining
+
+```powershell
+modal run modal_files/finetune_nemotron.py::export --experiment-name nemotron-car-dx-v1 --push-all-hub
+```
+
+Loads `best_model/` from the checkpoint volume on **L40S**, runs GGUF + Hub push only.
+
+### End-to-end Modal workflow
+
+```powershell
+# 1. Inference servers (deploy once)
+modal deploy modal_files/nemotron-nano-vllm.py
+modal deploy modal_files/gpt_oss_vllm.py
+
+# 2. Data generation (client → Modal HTTPS)
+modal run modal_files/classify_chunks.py
+modal run modal_files/generate_questions.py --llm nemotron
+modal run modal_files/generate_questions.py --llm gpt-oss
+modal run modal_files/generate_term_questions.py --llm nemotron
+modal run modal_files/generate_term_questions.py --llm gpt-oss
+
+# 3. Local merge + Hub dataset (no Modal)
+python scripts/merge_training_data.py
+python scripts/push_training_dataset.py
+
+# 4. Train on Modal GPU
+modal run modal_files/finetune_nemotron.py `
+  --experiment-name nemotron-car-dx-v1 `
+  --num-train-epochs 2 `
+  --push-all-hub
+
+# 5. Download artifacts
+modal volume get unsloth-checkpoints experiments/nemotron-car-dx-v1/best_model .\nemotron-lora
+```
+
+### Cost / ops notes
+
+- **vLLM apps** bill while containers are up (`min_containers=1` on Nemotron keeps one H200 warm).
+- **Finetune** uses `single_use_containers=True` — fresh container per run; **8h timeout**; retries ×3.
+- **Dataset cache** on `unsloth-dataset-cache` avoids re-tokenizing on repeat runs with the same dataset repo.
+- Delete cached preprocess path on the volume if you change Hub dataset revision and need a fresh split.
+
+---
+
 ## Prerequisites
 
 ### Local environment
